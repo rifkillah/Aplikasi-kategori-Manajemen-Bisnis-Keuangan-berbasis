@@ -49,7 +49,7 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 | PDF | barryvdh/laravel-dompdf 3 |
 | Frontend | Blade, Tailwind CSS, Alpine.js |
 | Grafik | Chart.js 4 |
-| Database | SQLite (default) / MySQL |
+| Database | MySQL (default) / SQLite |
 | Queue | Database driver |
 | Testing | PHPUnit 11 |
 
@@ -57,7 +57,7 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 
 ## Kebutuhan Sistem
 
-- PHP **8.2+** dengan ekstensi `pdo_sqlite` (default) atau `pdo_mysql`, `mbstring`, `openssl`, `dom`, `fileinfo`.
+- PHP **8.2+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
 - Composer 2.
 - Node.js 18+ dan npm (untuk build asset).
 - Tidak wajib Redis — queue, cache, dan session memakai database.
@@ -88,16 +88,21 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-Jika memakai SQLite (default), buat file database:
+Buat database MySQL terlebih dahulu (di Laragon/phpMyAdmin atau lewat CLI):
 
-```powershell
-New-Item -ItemType File -Force database\database.sqlite
+```sql
+CREATE DATABASE kasirin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 Pastikan `.env` berisi:
 
 ```env
-DB_CONNECTION=sqlite
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=kasirin
+DB_USERNAME=root
+DB_PASSWORD=
 QUEUE_CONNECTION=database
 SESSION_DRIVER=database
 CACHE_STORE=database
@@ -205,18 +210,20 @@ Registrasi publik selalu membuat akun **owner** untuk tenant baru. Anggota tim d
 
 ---
 
-## Beralih ke MySQL
+## Beralih ke SQLite (opsional)
 
-1. Buat database, misalnya `kasirin`.
+MySQL adalah database default. Jika ingin memakai SQLite (misalnya untuk eksperimen cepat):
+
+1. Buat file database:
+
+```powershell
+New-Item -ItemType File -Force database\database.sqlite
+```
+
 2. Ubah `.env`:
 
 ```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=kasirin
-DB_USERNAME=root
-DB_PASSWORD=
+DB_CONNECTION=sqlite
 ```
 
 3. Jalankan ulang migrasi dan seeder:
@@ -226,7 +233,7 @@ php artisan config:clear
 php artisan migrate:fresh --seed
 ```
 
-Semua query menggunakan Eloquent/Query Builder sehingga kompatibel dengan MySQL. Pastikan `storage/` dan `bootstrap/cache/` dapat ditulis.
+Semua query menggunakan Eloquent/Query Builder sehingga kompatibel dengan MySQL maupun SQLite. Pastikan `storage/` dan `bootstrap/cache/` dapat ditulis.
 
 ---
 
