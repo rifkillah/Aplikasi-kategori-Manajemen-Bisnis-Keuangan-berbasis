@@ -2,25 +2,24 @@
 
 @php
     $tones = [
-        'indigo' => ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-600'],
-        'emerald' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-600'],
-        'amber' => ['bg' => 'bg-amber-50', 'text' => 'text-amber-600'],
-        'rose' => ['bg' => 'bg-rose-50', 'text' => 'text-rose-600'],
-        'sky' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-600'],
-        'slate' => ['bg' => 'bg-slate-100', 'text' => 'text-slate-600'],
-    ][$tone] ?? ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-600'];
+        'indigo' => ['bg' => 'bg-indigo-500/15', 'text' => 'text-indigo-600', 'ring' => 'ring-indigo-500/20'],
+        'emerald' => ['bg' => 'bg-emerald-500/15', 'text' => 'text-emerald-600', 'ring' => 'ring-emerald-500/20'],
+        'amber' => ['bg' => 'bg-amber-500/15', 'text' => 'text-amber-600', 'ring' => 'ring-amber-500/20'],
+        'rose' => ['bg' => 'bg-rose-500/15', 'text' => 'text-rose-600', 'ring' => 'ring-rose-500/20'],
+        'sky' => ['bg' => 'bg-sky-500/15', 'text' => 'text-sky-600', 'ring' => 'ring-sky-500/20'],
+        'slate' => ['bg' => 'bg-slate-500/10', 'text' => 'text-slate-600', 'ring' => 'ring-slate-500/15'],
+    ][$tone] ?? ['bg' => 'bg-indigo-500/15', 'text' => 'text-indigo-600', 'ring' => 'ring-indigo-500/20'];
 @endphp
 
-<div class="card p-5">
-    <div class="flex items-start justify-between gap-4">
-        <div class="min-w-0">
-            <p class="text-sm font-medium text-slate-500">{{ $label }}</p>
-            <p class="mt-2 truncate text-2xl font-bold tracking-tight text-slate-900">{{ $value }}</p>
-        </div>
-        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl {{ $tones['bg'] }} {{ $tones['text'] }}">
+<div class="card p-5 transition-transform duration-300 hover:-translate-y-0.5">
+    <div class="flex items-start justify-between gap-3">
+        <p class="text-sm font-medium text-slate-500">{{ $label }}</p>
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ring-1 ring-inset {{ $tones['bg'] }} {{ $tones['text'] }} {{ $tones['ring'] }}">
             <x-icon :name="$icon" class="h-5 w-5" />
         </div>
     </div>
+
+    <p class="mt-2 break-words text-2xl font-bold leading-tight tracking-tight text-slate-900">{{ $value }}</p>
 
     @if ($hint || $trend)
         <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">

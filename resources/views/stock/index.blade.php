@@ -57,7 +57,45 @@
                 </x-slot>
             </x-empty-state>
         @else
-            <div class="table-wrap">
+            {{-- Mobile cards --}}
+            <div class="space-y-3 p-4 md:hidden">
+                @foreach ($logs as $log)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="truncate text-sm font-bold text-slate-800">{{ $log->product?->name ?? 'Produk dihapus' }}</p>
+                                <p class="mt-0.5 text-[11px] text-slate-400">
+                                    {{ id_date($log->created_at) }} · {{ $log->created_at->format('H:i') }} · {{ $log->user?->name ?? 'Sistem' }}
+                                </p>
+                            </div>
+                            <x-badge :tone="$log->type_badge">{{ $log->type_label }}</x-badge>
+                        </div>
+
+                        <div class="mt-3 grid grid-cols-3 gap-2">
+                            <div class="rounded-lg bg-slate-50 p-2.5">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Perubahan</p>
+                                <p class="mt-0.5 text-sm font-bold {{ $log->qty >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
+                                    {{ $log->qty >= 0 ? '+' : '' }}{{ $log->qty }}
+                                </p>
+                            </div>
+                            <div class="rounded-lg bg-slate-50 p-2.5">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Stok</p>
+                                <p class="mt-0.5 text-xs font-semibold text-slate-700">{{ $log->stock_before }} → {{ $log->stock_after }}</p>
+                            </div>
+                            <div class="rounded-lg bg-slate-50 p-2.5">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">SKU</p>
+                                <p class="mt-0.5 truncate text-xs font-medium text-slate-700">{{ $log->product?->sku ?? '—' }}</p>
+                            </div>
+                        </div>
+
+                        @if ($log->notes)
+                            <p class="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">{{ $log->notes }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="hidden table-wrap md:block">
                 <table class="table">
                     <thead>
                         <tr>
@@ -70,7 +108,7 @@
                             <th>Catatan</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 bg-white">
+                    <tbody class="divide-y divide-slate-900/[0.06]">
                         @foreach ($logs as $log)
                             <tr>
                                 <td>

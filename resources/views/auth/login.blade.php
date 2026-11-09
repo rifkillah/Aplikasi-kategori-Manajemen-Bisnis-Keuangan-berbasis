@@ -8,25 +8,25 @@
     <x-auth-session-status class="mb-5" :status="session('status')" />
 
     @if (session('success'))
-        <div class="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+        <div class="mb-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-800 backdrop-blur-xl">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="mb-6 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
+    <div class="mb-6 rounded-[24px] border border-white/70 bg-white/45 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
         <p class="text-xs font-bold uppercase tracking-wider text-indigo-700">Akun demo siap pakai</p>
-        <div class="mt-2 grid grid-cols-3 gap-2 text-[11px]">
-            <div class="rounded-lg bg-white p-2 ring-1 ring-indigo-100">
+        <div class="mt-3 space-y-1.5 text-[11px]">
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-white/70 bg-white/60 px-3 py-2 backdrop-blur">
                 <p class="font-semibold text-slate-800">Owner</p>
-                <p class="mt-0.5 break-all text-slate-500">owner@demo.com</p>
+                <p class="truncate text-slate-500">owner@demo.com</p>
             </div>
-            <div class="rounded-lg bg-white p-2 ring-1 ring-indigo-100">
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-white/70 bg-white/60 px-3 py-2 backdrop-blur">
                 <p class="font-semibold text-slate-800">Kasir</p>
-                <p class="mt-0.5 break-all text-slate-500">kasir@demo.com</p>
+                <p class="truncate text-slate-500">kasir@demo.com</p>
             </div>
-            <div class="rounded-lg bg-white p-2 ring-1 ring-indigo-100">
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-white/70 bg-white/60 px-3 py-2 backdrop-blur">
                 <p class="font-semibold text-slate-800">Gudang</p>
-                <p class="mt-0.5 break-all text-slate-500">gudang@demo.com</p>
+                <p class="truncate text-slate-500">gudang@demo.com</p>
             </div>
         </div>
         <p class="mt-2 text-[11px] text-indigo-600">Password semua akun: <span class="font-semibold">password</span></p>

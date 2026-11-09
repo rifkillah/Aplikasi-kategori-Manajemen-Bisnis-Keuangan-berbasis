@@ -23,7 +23,26 @@
                 @if ($transactions->isEmpty())
                     <x-empty-state title="Belum ada transaksi" description="Pelanggan ini belum memiliki riwayat pembelian." icon="receipt" />
                 @else
-                    <div class="table-wrap">
+                    {{-- Mobile cards --}}
+                    <div class="space-y-3 p-4 md:hidden">
+                        @foreach ($transactions as $transaction)
+                            <a href="{{ route('transactions.show', $transaction) }}" class="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-bold text-indigo-600">{{ $transaction->invoice_number }}</p>
+                                        <p class="mt-0.5 text-[11px] text-slate-400">{{ id_date($transaction->transaction_date, true) }} · {{ $transaction->type_label }}</p>
+                                    </div>
+                                    <x-badge :tone="$transaction->payment_status_badge">{{ $transaction->payment_status_label }}</x-badge>
+                                </div>
+                                <div class="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5">
+                                    <span class="text-[11px] text-slate-400">Total belanja</span>
+                                    <span class="text-sm font-extrabold text-slate-900">{{ rupiah($transaction->total_amount) }}</span>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    <div class="hidden table-wrap md:block">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -34,7 +53,7 @@
                                     <th class="text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50 bg-white">
+                            <tbody class="divide-y divide-slate-900/[0.06]">
                                 @foreach ($transactions as $transaction)
                                     <tr>
                                         <td>

@@ -56,7 +56,64 @@
                 </x-slot>
             </x-empty-state>
         @else
-            <div class="table-wrap">
+            {{-- Mobile cards --}}
+            <div class="space-y-3 p-4 md:hidden">
+                @foreach ($products as $product)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                                <x-icon name="cube" class="h-5 w-5" />
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <a href="{{ route('products.show', $product) }}" class="block truncate text-sm font-bold text-slate-800">
+                                    {{ $product->name }}
+                                </a>
+                                <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                                    {{ $product->sku }}@if ($product->barcode) · {{ $product->barcode }}@endif
+                                </p>
+                            </div>
+                            @if (! $product->is_active)
+                                <x-badge tone="gray">Nonaktif</x-badge>
+                            @elseif ($product->stock <= 0)
+                                <x-badge tone="danger">Habis</x-badge>
+                            @elseif ($product->is_low_stock)
+                                <x-badge tone="warning">Menipis</x-badge>
+                            @else
+                                <x-badge tone="success">Tersedia</x-badge>
+                            @endif
+                        </div>
+
+                        <div class="mt-3 grid grid-cols-2 gap-2">
+                            <div class="rounded-lg bg-slate-50 p-2.5">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Harga jual</p>
+                                <p class="mt-0.5 text-sm font-bold text-slate-800">{{ rupiah($product->selling_price) }}</p>
+                                <p class="text-[10px] text-slate-400">Beli {{ rupiah($product->purchase_price) }}</p>
+                            </div>
+                            <div class="rounded-lg bg-slate-50 p-2.5">
+                                <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Stok</p>
+                                <p class="mt-0.5 text-sm font-bold {{ $product->stock <= 0 ? 'text-rose-600' : ($product->is_low_stock ? 'text-amber-600' : 'text-slate-800') }}">
+                                    {{ $product->stock }} <span class="text-[10px] font-normal text-slate-400">{{ $product->unit }}</span>
+                                </p>
+                                <p class="text-[10px] text-slate-400">min. {{ $product->min_stock_alert }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 flex gap-2 border-t border-slate-100 pt-3">
+                            <a href="{{ route('stock.create', ['product' => $product->id, 'type' => 'in']) }}" class="btn-secondary btn-sm flex-1">
+                                <x-icon name="plus" class="h-3.5 w-3.5" /> Stok
+                            </a>
+                            <a href="{{ route('products.show', $product) }}" class="btn-secondary btn-sm flex-1">
+                                <x-icon name="eye" class="h-3.5 w-3.5" /> Detail
+                            </a>
+                            <a href="{{ route('products.edit', $product) }}" class="btn-secondary btn-sm flex-1">
+                                <x-icon name="edit" class="h-3.5 w-3.5" /> Edit
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="hidden table-wrap md:block">
                 <table class="table">
                     <thead>
                         <tr>
@@ -68,7 +125,7 @@
                             <th class="text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 bg-white">
+                    <tbody class="divide-y divide-slate-900/[0.06]">
                         @foreach ($products as $product)
                             <tr>
                                 <td>

@@ -54,7 +54,45 @@
                 </x-slot>
             </x-empty-state>
         @else
-            <div class="table-wrap">
+            {{-- Mobile cards --}}
+            <div class="space-y-3 p-4 md:hidden">
+                @foreach ($transactions as $transaction)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="truncate text-sm font-bold text-slate-800">{{ $transaction->description }}</p>
+                                <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                                    {{ $transaction->invoice_number }} · {{ id_date($transaction->transaction_date) }}
+                                </p>
+                            </div>
+                            <x-badge :tone="$transaction->type === 'income' ? 'success' : 'danger'">{{ $transaction->type_label }}</x-badge>
+                        </div>
+
+                        <div class="mt-3 flex items-end justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="text-[11px] text-slate-400">{{ $transaction->payment_method_label }} · {{ $transaction->user?->name ?? 'Sistem' }}</p>
+                                @if ($transaction->notes)
+                                    <p class="mt-0.5 line-clamp-2 text-[11px] text-slate-500">{{ $transaction->notes }}</p>
+                                @endif
+                            </div>
+                            <p class="shrink-0 text-base font-extrabold {{ $transaction->type === 'income' ? 'text-emerald-600' : 'text-rose-600' }}">
+                                {{ $transaction->type === 'income' ? '+' : '−' }}{{ rupiah($transaction->total_amount) }}
+                            </p>
+                        </div>
+
+                        <form method="POST" action="{{ route('finance.destroy', $transaction) }}" class="mt-3 border-t border-slate-100 pt-2"
+                              onsubmit="return confirm('Hapus catatan {{ $transaction->type_label }} ini? Tindakan ini tidak dapat dibatalkan.');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-ghost btn-sm w-full text-rose-600 hover:bg-rose-50">
+                                <x-icon name="trash" class="h-3.5 w-3.5" /> Hapus catatan
+                            </button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="hidden table-wrap md:block">
                 <table class="table">
                     <thead>
                         <tr>
@@ -66,7 +104,7 @@
                             <th class="text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 bg-white">
+                    <tbody class="divide-y divide-slate-900/[0.06]">
                         @foreach ($transactions as $transaction)
                             <tr>
                                 <td>

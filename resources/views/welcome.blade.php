@@ -67,7 +67,7 @@
                         Mulai Sekarang — Gratis
                         <x-icon name="arrow-right" class="h-4 w-4" />
                     </a>
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/5">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10">
                         <x-icon name="eye" class="h-4 w-4" /> Lihat Akun Demo
                     </a>
                 </div>
@@ -176,7 +176,7 @@
     </div>
 
     {{-- Features --}}
-    <section id="fitur" class="bg-white py-24">
+    <section id="fitur" class="py-24">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
             <div class="mx-auto max-w-2xl text-center">
                 <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Fitur utama</p>
@@ -197,8 +197,8 @@
                 @endphp
 
                 @foreach ($features as [$icon, $title, $description, $tone])
-                    <div class="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-100">
-                        <div class="flex h-11 w-11 items-center justify-center rounded-xl {{ $tone }}">
+                    <div class="group rounded-[26px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:bg-white/75 hover:shadow-[0_26px_60px_-26px_rgba(79,70,229,0.35)]">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-2xl ring-1 ring-inset ring-white/50 {{ $tone }}">
                             <x-icon :name="$icon" class="h-5 w-5" />
                         </div>
                         <h3 class="mt-5 text-base font-bold text-slate-900">{{ $title }}</h3>
@@ -210,7 +210,7 @@
     </section>
 
     {{-- How it works --}}
-    <section id="cara-kerja" class="bg-slate-50 py-24">
+    <section id="cara-kerja" class="py-24">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
             <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
                 <div>
@@ -237,7 +237,7 @@
 
                 <div class="relative">
                     <div class="absolute -inset-5 rounded-[2rem] bg-gradient-to-br from-indigo-100 to-violet-100 blur-xl"></div>
-                    <div class="relative rounded-2xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/60">
+                    <div class="relative rounded-[28px] border border-white/70 bg-white/55 p-5 shadow-[0_24px_60px_-30px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                             <div class="flex items-center gap-2">
                                 <x-application-logo class="h-8 w-8" />
@@ -286,7 +286,7 @@
     </section>
 
     {{-- Pricing --}}
-    <section id="harga" class="bg-white py-24">
+    <section id="harga" class="py-24">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
             <div class="mx-auto max-w-2xl text-center">
                 <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Harga sederhana</p>
@@ -304,7 +304,7 @@
                 @endphp
 
                 @foreach ($plans as [$name, $price, $description, $features, $popular])
-                    <div class="relative rounded-2xl border p-6 {{ $popular ? 'border-indigo-600 bg-slate-950 text-white shadow-2xl shadow-indigo-600/20' : 'border-slate-200 bg-white' }}">
+                    <div class="relative rounded-[26px] border p-6 backdrop-blur-2xl {{ $popular ? 'border-white/15 bg-slate-950/90 text-white shadow-[0_30px_70px_-30px_rgba(79,70,229,0.7)]' : 'border-white/70 bg-white/55 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)]' }}">
                         @if ($popular)
                             <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-500 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Paling populer</span>
                         @endif
@@ -324,7 +324,7 @@
                             @endforeach
                         </ul>
 
-                        <a href="{{ route('register') }}" class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition {{ $popular ? 'bg-white text-slate-900 hover:bg-slate-100' : 'border border-slate-200 text-slate-700 hover:bg-slate-50' }}">
+                        <a href="{{ route('register') }}" class="mt-6 flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-xs font-bold transition {{ $popular ? 'bg-white text-slate-900 hover:bg-slate-100' : 'border border-white/70 bg-white/60 text-slate-700 hover:bg-white/85' }}">
                             Mulai sekarang <x-icon name="arrow-right" class="h-3.5 w-3.5" />
                         </a>
                     </div>
@@ -334,9 +334,9 @@
     </section>
 
     {{-- CTA --}}
-    <section class="bg-slate-50 py-20">
+    <section class="py-20">
         <div class="mx-auto max-w-5xl px-5 sm:px-8">
-            <div class="relative overflow-hidden rounded-3xl bg-slate-950 px-6 py-14 text-center sm:px-12">
+            <div class="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/90 px-6 py-14 text-center shadow-[0_40px_100px_-40px_rgba(2,6,23,0.9)] backdrop-blur-2xl sm:px-12">
                 <div class="pointer-events-none absolute inset-0">
                     <div class="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-indigo-600/30 blur-3xl"></div>
                     <div class="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-violet-600/25 blur-3xl"></div>
@@ -346,7 +346,7 @@
                     <p class="mx-auto mt-3 max-w-xl text-sm text-slate-400">Bergabung dengan UMKM yang sudah meninggalkan pencatatan manual. Gratis untuk memulai.</p>
                     <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                         <a href="{{ route('register') }}" class="btn-primary px-6 py-3">Buat Workspace Gratis <x-icon name="arrow-right" class="h-4 w-4" /></a>
-                        <a href="mailto:halo@kasirin.id" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5">
+                        <a href="mailto:halo@kasirin.id" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10">
                             <x-icon name="mail" class="h-4 w-4" /> Hubungi Sales
                         </a>
                     </div>
@@ -355,7 +355,7 @@
         </div>
     </section>
 
-    <footer class="border-t border-slate-200 bg-white">
+    <footer class="border-t border-white/50 bg-white/40 backdrop-blur-xl">
         <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-8 sm:flex-row sm:px-8">
             <div class="flex items-center gap-2.5">
                 <x-application-logo class="h-8 w-8" />

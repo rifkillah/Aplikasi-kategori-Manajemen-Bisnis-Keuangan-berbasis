@@ -62,7 +62,21 @@
 
                 <div class="border-t border-slate-100">
                     @if ($transaction->details->isNotEmpty())
-                        <div class="table-wrap">
+                        {{-- Mobile items --}}
+                        <div class="divide-y divide-slate-100 md:hidden">
+                            @foreach ($transaction->details as $detail)
+                                <div class="flex items-start justify-between gap-3 p-4">
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-semibold text-slate-800">{{ $detail->product_name }}</p>
+                                        <p class="mt-0.5 text-[11px] text-slate-400">{{ $detail->sku }}</p>
+                                        <p class="mt-1 text-[11px] text-slate-500">{{ $detail->quantity }} × {{ rupiah($detail->price) }}</p>
+                                    </div>
+                                    <p class="shrink-0 text-sm font-bold text-slate-800">{{ rupiah($detail->subtotal) }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="hidden table-wrap md:block">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -72,7 +86,7 @@
                                         <th class="text-right">Subtotal</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-50 bg-white">
+                                <tbody class="divide-y divide-slate-900/[0.06]">
                                     @foreach ($transaction->details as $detail)
                                         <tr>
                                             <td>

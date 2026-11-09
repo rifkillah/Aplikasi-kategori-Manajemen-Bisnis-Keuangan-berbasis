@@ -65,7 +65,7 @@
                     <h2 class="section-title">Produk terlaris</h2>
                     <p class="muted mt-0.5">Berdasarkan omzet bulan ini</p>
                 </div>
-                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 ring-1 ring-inset ring-amber-500/20">
                     <x-icon name="sparkles" class="h-4.5 w-4.5" />
                 </span>
             </div>
@@ -75,7 +75,7 @@
                     <div>
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex min-w-0 items-start gap-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-bold text-slate-500">{{ $index + 1 }}</span>
+                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/60 text-[11px] font-bold text-slate-500 ring-1 ring-inset ring-slate-900/5">{{ $index + 1 }}</span>
                                 <div class="min-w-0">
                                     <p class="truncate text-sm font-semibold text-slate-800">{{ $product->product_name }}</p>
                                     <p class="text-[11px] text-slate-400">{{ number_format($product->total_qty, 0, ',', '.') }} terjual</p>
@@ -83,7 +83,7 @@
                             </div>
                             <p class="shrink-0 text-xs font-semibold text-slate-700">{{ rupiah($product->total_revenue) }}</p>
                         </div>
-                        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-900/[0.06]">
                             <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" style="width: {{ max(6, ((float) $product->total_revenue / $maxRevenue) * 100) }}%"></div>
                         </div>
                     </div>
@@ -111,7 +111,30 @@
                 @if ($recentTransactions->isEmpty())
                     <x-empty-state title="Belum ada transaksi" description="Mulai transaksi pertama Anda melalui menu Kasir." icon="receipt" />
                 @else
-                    <div class="table-wrap">
+                    {{-- Mobile list --}}
+                    <div class="divide-y divide-slate-100 md:hidden">
+                        @foreach ($recentTransactions as $transaction)
+                            <a href="{{ route('transactions.show', $transaction) }}" class="flex items-center gap-3 px-4 py-3.5 transition active:bg-slate-50">
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <p class="truncate text-sm font-semibold text-slate-800">{{ $transaction->invoice_number }}</p>
+                                        @if ($transaction->is_void)
+                                            <x-badge tone="danger">Void</x-badge>
+                                        @endif
+                                    </div>
+                                    <p class="mt-0.5 truncate text-[11px] text-slate-400">
+                                        {{ $transaction->customer?->name ?? 'Pelanggan umum' }} · {{ id_date($transaction->transaction_date, true) }}
+                                    </p>
+                                </div>
+                                <div class="shrink-0 text-right">
+                                    <p class="text-sm font-bold text-slate-800">{{ rupiah($transaction->total_amount) }}</p>
+                                    <x-badge :tone="$transaction->payment_status_badge">{{ $transaction->payment_status_label }}</x-badge>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    <div class="hidden table-wrap md:block">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -122,7 +145,7 @@
                                     <th>Waktu</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-50 bg-white">
+                            <tbody class="divide-y divide-slate-900/[0.06]">
                                 @foreach ($recentTransactions as $transaction)
                                     <tr>
                                         <td>
@@ -167,7 +190,7 @@
             <div class="p-5 sm:p-6">
                 @forelse ($lowStockProducts as $product)
                     <div class="flex items-center gap-3 border-b border-slate-100 py-3 first:pt-0 last:border-0 last:pb-0">
-                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl {{ $product->stock <= 0 ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600' }}">
+                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset {{ $product->stock <= 0 ? 'bg-rose-500/10 text-rose-600 ring-rose-500/20' : 'bg-amber-500/10 text-amber-600 ring-amber-500/20' }}">
                             <x-icon name="cube" class="h-4 w-4" />
                         </div>
                         <div class="min-w-0 flex-1">
@@ -179,13 +202,13 @@
                             <p class="text-[10px] text-slate-400">tersisa</p>
                         </div>
                         <a href="{{ route('stock.create', ['product' => $product->id, 'type' => 'in']) }}"
-                           class="rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600" title="Restock">
+                           class="rounded-full border border-white/70 bg-white/50 p-2 text-slate-500 backdrop-blur transition hover:border-indigo-200 hover:bg-white/80 hover:text-indigo-600" title="Restock">
                             <x-icon name="plus" class="h-4 w-4" />
                         </a>
                     </div>
                 @empty
                     <div class="flex flex-col items-center py-8 text-center">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 ring-1 ring-inset ring-emerald-500/20">
                             <x-icon name="check" class="h-6 w-6" />
                         </div>
                         <p class="mt-3 text-sm font-semibold text-slate-800">Semua stok aman</p>
@@ -215,7 +238,7 @@
                                         data: data.income,
                                         backgroundColor: 'rgba(99, 102, 241, 0.85)',
                                         hoverBackgroundColor: 'rgba(79, 70, 229, 1)',
-                                        borderRadius: 6,
+                                        borderRadius: 8,
                                         maxBarThickness: 26,
                                     },
                                     {
@@ -223,7 +246,7 @@
                                         data: data.expense,
                                         backgroundColor: 'rgba(251, 113, 133, 0.55)',
                                         hoverBackgroundColor: 'rgba(244, 63, 94, 0.8)',
-                                        borderRadius: 6,
+                                        borderRadius: 8,
                                         maxBarThickness: 26,
                                     }
                                 ]
@@ -237,7 +260,7 @@
                                     tooltip: {
                                         backgroundColor: '#0f172a',
                                         padding: 12,
-                                        cornerRadius: 10,
+                                        cornerRadius: 16,
                                         callbacks: {
                                             label: function (context) {
                                                 return context.dataset.label + ': Rp ' + new Intl.NumberFormat('id-ID').format(context.parsed.y);

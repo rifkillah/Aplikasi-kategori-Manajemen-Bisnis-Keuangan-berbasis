@@ -104,7 +104,31 @@
         @if ($topProducts->isEmpty())
             <x-empty-state title="Belum ada penjualan" description="Produk terlaris akan muncul setelah ada transaksi pada periode ini." icon="cube" />
         @else
-            <div class="table-wrap">
+            {{-- Mobile cards --}}
+            <div class="space-y-3 p-4 md:hidden">
+                @foreach ($topProducts as $index => $product)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start gap-3">
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-bold text-slate-500">{{ $index + 1 }}</span>
+                            <div class="min-w-0 flex-1">
+                                <p class="truncate text-sm font-bold text-slate-800">{{ $product->product_name }}</p>
+                                <p class="mt-0.5 text-[11px] text-slate-400">{{ $product->sku ?? '—' }}</p>
+                            </div>
+                            <p class="shrink-0 text-sm font-bold text-slate-800">{{ rupiah($product->total_revenue) }}</p>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500">
+                            <span>{{ number_format($product->total_qty, 0, ',', '.') }} terjual</span>
+                            <span class="font-medium text-slate-600">{{ $revenue > 0 ? round(((float) $product->total_revenue / (float) $revenue) * 100, 1) : 0 }}% kontribusi</span>
+                        </div>
+                        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                            <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+                                 style="width: {{ $revenue > 0 ? min(100, ((float) $product->total_revenue / (float) $revenue) * 100) : 0 }}%"></div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="hidden table-wrap md:block">
                 <table class="table">
                     <thead>
                         <tr>
@@ -115,7 +139,7 @@
                             <th class="text-right">Kontribusi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 bg-white">
+                    <tbody class="divide-y divide-slate-900/[0.06]">
                         @foreach ($topProducts as $index => $product)
                             <tr>
                                 <td class="text-xs font-bold text-slate-400">{{ $index + 1 }}</td>

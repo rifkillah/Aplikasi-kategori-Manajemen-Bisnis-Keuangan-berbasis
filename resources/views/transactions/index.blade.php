@@ -57,7 +57,53 @@
                 </x-slot>
             </x-empty-state>
         @else
-            <div class="table-wrap">
+            {{-- Mobile cards --}}
+            <div class="space-y-3 p-4 md:hidden">
+                @foreach ($transactions as $transaction)
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <a href="{{ route('transactions.show', $transaction) }}" class="block truncate text-sm font-bold text-indigo-600">
+                                    {{ $transaction->invoice_number }}
+                                </a>
+                                <p class="mt-0.5 text-[11px] text-slate-400">
+                                    {{ $transaction->transaction_date->format('d M Y · H:i') }} · {{ $transaction->user?->name ?? 'Sistem' }}
+                                </p>
+                            </div>
+                            <x-badge :tone="$transaction->payment_status_badge">{{ $transaction->payment_status_label }}</x-badge>
+                        </div>
+
+                        <div class="mt-3 flex items-end justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="truncate text-sm font-medium text-slate-700">{{ $transaction->customer?->name ?? 'Pelanggan umum' }}</p>
+                                @if ($transaction->description)
+                                    <p class="mt-0.5 truncate text-[11px] text-slate-400">{{ $transaction->description }}</p>
+                                @endif
+                                <div class="mt-1 flex flex-wrap items-center gap-1.5">
+                                    <span class="badge {{ $transaction->type === 'sale' ? 'badge-info' : ($transaction->type === 'income' ? 'badge-success' : 'badge-warning') }}">
+                                        {{ $transaction->type_label }}
+                                    </span>
+                                    @if ($transaction->is_void)
+                                        <x-badge tone="danger">Void</x-badge>
+                                    @endif
+                                </div>
+                            </div>
+                            <p class="shrink-0 text-base font-extrabold text-slate-900">{{ rupiah($transaction->total_amount) }}</p>
+                        </div>
+
+                        <div class="mt-3 flex gap-2 border-t border-slate-100 pt-3">
+                            <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary btn-sm flex-1">
+                                <x-icon name="eye" class="h-3.5 w-3.5" /> Detail
+                            </a>
+                            <a href="{{ route('transactions.pdf', $transaction) }}" class="btn-secondary btn-sm flex-1">
+                                <x-icon name="download" class="h-3.5 w-3.5" /> Invoice
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="hidden table-wrap md:block">
                 <table class="table">
                     <thead>
                         <tr>
@@ -70,7 +116,7 @@
                             <th class="text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 bg-white">
+                    <tbody class="divide-y divide-slate-900/[0.06]">
                         @foreach ($transactions as $transaction)
                             <tr>
                                 <td>
