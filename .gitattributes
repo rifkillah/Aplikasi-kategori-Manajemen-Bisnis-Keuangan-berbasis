@@ -1,11 +1,5 @@
-* text=auto eol=lf
+* text=auto
 
-*.blade.php diff=html
-*.css diff=css
-*.html diff=html
-*.md diff=markdown
-*.php diff=php
-
-/.github export-ignore
-CHANGELOG.md export-ignore
-.styleci.yml export-ignore
+Dockerfile text eol=lf
+Caddyfile text eol=lf
+*.sh text eol=lf
