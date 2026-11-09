@@ -18,9 +18,11 @@ beberapa hal yang perlu disesuaikan agar bisa jalan di Vercel:
 
 ### Opsi A — Neon Postgres (paling mudah, direkomendasikan)
 
-1. Buka **Vercel → Marketplace → Neon**, lalu hubungkan ke project.
-2. Neon otomatis membuat database dan mengisi environment variable (`DATABASE_URL`, `PGHOST`, dll).
-3. Salin nilai `PGHOST`, `PGDATABASE`, `PGUSER`, `PGPASSWORD` ke variabel `DB_*` di langkah 2.
+1. Buka **Vercel → project → Storage / Marketplace → Neon**, pilih paket **Free**, lalu
+   hubungkan ke project (region terdekat, mis. Singapore).
+2. Neon otomatis mengisi environment variable `DATABASE_URL` (dan `PGHOST`, `PGUSER`, dst).
+3. Aplikasi ini sudah membaca `DATABASE_URL` secara otomatis lewat `config/database.php`,
+   jadi kamu **tidak perlu** menyalin host/user/password satu per satu.
 
 ### Opsi B — Aiven MySQL (kalau ingin tetap MySQL)
 
@@ -42,13 +44,14 @@ APP_KEY=base64:...            # generate: php artisan key:generate --show
 APP_URL=https://nama-project.vercel.app
 LOG_CHANNEL=stderr
 
-DB_CONNECTION=pgsql           # atau mysql untuk Aiven
+DB_CONNECTION=pgsql           # opsional jika DATABASE_URL sudah ada (Neon)
 DB_HOST=...
 DB_PORT=5432
 DB_DATABASE=...
 DB_USERNAME=...
 DB_PASSWORD=...
 DB_SSLMODE=require
+# Atau cukup andalkan DATABASE_URL yang disuntikkan integrasi Neon.
 
 SESSION_DRIVER=database
 SESSION_SECURE_COOKIE=true
