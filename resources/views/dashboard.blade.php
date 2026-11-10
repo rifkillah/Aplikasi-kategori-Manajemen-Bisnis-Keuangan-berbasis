@@ -225,10 +225,12 @@
                 const canvas = document.getElementById('cashflowChart');
                 if (!canvas || typeof Chart === 'undefined') return;
 
+                const isDark = () => document.documentElement.dataset.theme === 'dark';
+
                 fetch('{{ route('dashboard.chart') }}', { headers: { 'Accept': 'application/json' } })
                     .then(response => response.json())
                     .then(data => {
-                        new Chart(canvas, {
+                        const chart = new Chart(canvas, {
                             type: 'bar',
                             data: {
                                 labels: data.labels,
@@ -276,7 +278,7 @@
                                     },
                                     y: {
                                         beginAtZero: true,
-                                        grid: { color: 'rgba(226, 232, 240, 0.6)' },
+                                        grid: { color: isDark() ? 'rgba(148, 163, 184, 0.18)' : 'rgba(226, 232, 240, 0.6)' },
                                         border: { display: false },
                                         ticks: {
                                             color: '#94a3b8',
@@ -290,6 +292,13 @@
                                     }
                                 }
                             }
+                        });
+
+                        window.addEventListener('app-theme-changed', () => {
+                            chart.options.scales.y.grid.color = isDark()
+                                ? 'rgba(148, 163, 184, 0.18)'
+                                : 'rgba(226, 232, 240, 0.6)';
+                            chart.update('none');
                         });
                     })
                     .catch(() => {

@@ -23,9 +23,18 @@
         'settings.edit' => 'Pengaturan Bisnis',
         'notifications.index' => 'Notifikasi',
         'profile.edit' => 'Profil Saya',
+        'appearance.edit' => 'Tampilan',
     ];
     $pageTitle = $pageTitles[$routeName] ?? 'Kasirin';
     $user = auth()->user();
+
+    $themeMode = in_array($user->theme_mode, ['system', 'light', 'dark'], true) ? $user->theme_mode : 'system';
+    $bgPreset = $user->background_preset === 'custom' && $user->background_image
+        ? 'custom'
+        : (array_key_exists($user->background_preset ?? '', config('appearance.presets')) ? $user->background_preset : 'aurora');
+    $wallpaperUrl = $user->background_image
+        ? \Illuminate\Support\Facades\Storage::disk('public')->url($user->background_image)
+        : null;
 
     $tabBase = 'flex flex-1 flex-col items-center justify-center gap-1 rounded-[20px] px-2 py-2 text-[10px] font-semibold transition-all duration-200';
     $tabOn = 'animate-pop bg-indigo-600 text-white shadow-[0_10px_22px_-10px_rgba(79,70,229,0.95)]';
@@ -33,7 +42,8 @@
 @endphp
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme-mode="{{ $themeMode }}" data-bg="{{ $bgPreset }}"
+      @if ($wallpaperUrl) data-wallpaper="true" style="--wallpaper-url: url('{{ $wallpaperUrl }}')" @endif>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -43,6 +53,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('partials.theme-boot', ['mode' => $themeMode])
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
@@ -183,6 +194,18 @@
                             Transaksi Baru
                         </a>
 
+                        <button type="button"
+                                x-data="themeToggle(@js($themeMode))"
+                                @click="cycle()"
+                                :title="'Mode tampilan: ' + label"
+                                :aria-label="'Mode tampilan: ' + label"
+                                data-theme-url="{{ route('appearance.theme') }}"
+                                class="relative rounded-full p-2.5 text-slate-600 transition hover:bg-white/70 hover:text-slate-800">
+                            <x-icon name="monitor" class="h-5 w-5" x-show="mode === 'system'" x-cloak />
+                            <x-icon name="sun" class="h-5 w-5" x-show="mode === 'light'" x-cloak />
+                            <x-icon name="moon" class="h-5 w-5" x-show="mode === 'dark'" x-cloak />
+                        </button>
+
                         <a href="{{ route('notifications.index') }}"
                            class="relative rounded-full p-2.5 text-slate-600 transition hover:bg-white/70 hover:text-slate-800">
                             <x-icon name="bell" class="hover-wiggle h-5 w-5" />
@@ -214,6 +237,9 @@
                                 </div>
                                 <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-white/70">
                                     <x-icon name="user" class="h-4 w-4 text-slate-400" /> Profil Saya
+                                </a>
+                                <a href="{{ route('appearance.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-white/70">
+                                    <x-icon name="palette" class="h-4 w-4 text-slate-400" /> Tampilan & Latar
                                 </a>
                                 @if ($user->isOwner())
                                     <a href="{{ route('settings.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-600 transition hover:bg-white/70">

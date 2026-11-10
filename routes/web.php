@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppearanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Tampilan pribadi: mode terang/gelap dan latar belakang.
+    Route::get('/appearance', [AppearanceController::class, 'edit'])->name('appearance.edit');
+    Route::patch('/appearance', [AppearanceController::class, 'update'])->name('appearance.update');
+    Route::post('/appearance/theme', [AppearanceController::class, 'theme'])->name('appearance.theme');
 
     // Kasir & transaksi
     Route::middleware('role:owner|kasir')->group(function () {

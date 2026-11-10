@@ -6,6 +6,71 @@ import Chart from 'chart.js/auto';
 window.Alpine = Alpine;
 window.Chart = Chart;
 
+/*
+ * Appearance: system / light / dark, with instant switching and persistence.
+ */
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+window.applyAppTheme = function (mode) {
+    const dark = mode === 'dark' || (mode === 'system' && systemDark.matches);
+
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.dataset.themeMode = mode;
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+        themeColor.setAttribute('content', dark ? '#070b1a' : '#eef0fb');
+    }
+
+    window.dispatchEvent(new CustomEvent('app-theme-changed', { detail: { mode, dark } }));
+};
+
+if (typeof systemDark.addEventListener === 'function') {
+    systemDark.addEventListener('change', () => {
+        if ((document.documentElement.dataset.themeMode || 'system') === 'system') {
+            window.applyAppTheme('system');
+        }
+    });
+}
+
+window.themeToggle = function (initial) {
+    return {
+        mode: initial || 'system',
+
+        init() {
+            window.addEventListener('app-theme-changed', (event) => {
+                this.mode = event.detail.mode;
+            });
+        },
+
+        get label() {
+            return { system: 'Ikuti sistem', light: 'Terang', dark: 'Gelap' }[this.mode] || 'Ikuti sistem';
+        },
+
+        cycle() {
+            const order = ['system', 'light', 'dark'];
+            this.mode = order[(order.indexOf(this.mode) + 1) % order.length];
+
+            window.applyAppTheme(this.mode);
+
+            const url = this.$el?.dataset?.themeUrl;
+            if (!url) {
+                return;
+            }
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? '',
+                },
+                body: JSON.stringify({ theme_mode: this.mode }),
+            }).catch(() => {});
+        },
+    };
+};
+
 Alpine.start();
 
 /*
