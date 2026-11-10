@@ -5,7 +5,7 @@
 
 <div class="grid gap-6 xl:grid-cols-3">
     <div class="space-y-6 xl:col-span-2">
-        <div class="card">
+        <div data-reveal class="card">
             <div class="border-b border-slate-100 p-5 sm:p-6">
                 <h2 class="section-title">Informasi pelanggan</h2>
                 <p class="muted mt-0.5">Data ini akan muncul pada invoice dan riwayat transaksi.</p>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="space-y-6">
-        <div class="card p-5 sm:p-6">
+        <div data-reveal class="card p-5 sm:p-6">
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                 <x-icon name="users" class="h-5 w-5" />
             </div>

@@ -22,7 +22,7 @@
 
     <div class="grid gap-6 xl:grid-cols-3">
         <div class="space-y-6 xl:col-span-2">
-            <div class="card overflow-hidden">
+            <div data-reveal class="card overflow-hidden">
                 <div class="flex flex-col gap-4 border-b border-slate-100 bg-slate-50/50 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                     <div class="flex items-center gap-3">
                         <x-application-logo class="h-11 w-11" />
@@ -159,7 +159,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h2 class="section-title">Aksi</h2>
                 <div class="mt-4 space-y-2">
                     <a href="{{ route('transactions.pdf', $transaction) }}" class="btn-primary w-full">
@@ -187,7 +187,7 @@
                 @endif
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h2 class="section-title">Ringkasan pembayaran</h2>
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex justify-between gap-4">

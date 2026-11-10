@@ -11,10 +11,10 @@
     ][$tone] ?? ['bg' => 'bg-indigo-500/15', 'text' => 'text-indigo-600', 'ring' => 'ring-indigo-500/20'];
 @endphp
 
-<div class="card p-5 transition-transform duration-300 hover:-translate-y-0.5">
+<div class="card card-hover p-5" data-reveal>
     <div class="flex items-start justify-between gap-3">
         <p class="text-sm font-medium text-slate-500">{{ $label }}</p>
-        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ring-1 ring-inset {{ $tones['bg'] }} {{ $tones['text'] }} {{ $tones['ring'] }}">
+        <div class="icon-pop flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ring-1 ring-inset {{ $tones['bg'] }} {{ $tones['text'] }} {{ $tones['ring'] }}">
             <x-icon :name="$icon" class="h-5 w-5" />
         </div>
     </div>

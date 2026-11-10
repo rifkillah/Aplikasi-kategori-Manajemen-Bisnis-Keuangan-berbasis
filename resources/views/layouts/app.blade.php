@@ -28,7 +28,7 @@
     $user = auth()->user();
 
     $tabBase = 'flex flex-1 flex-col items-center justify-center gap-1 rounded-[20px] px-2 py-2 text-[10px] font-semibold transition-all duration-200';
-    $tabOn = 'bg-indigo-600 text-white shadow-[0_10px_22px_-10px_rgba(79,70,229,0.95)]';
+    $tabOn = 'animate-pop bg-indigo-600 text-white shadow-[0_10px_22px_-10px_rgba(79,70,229,0.95)]';
     $tabOff = 'text-slate-500 hover:bg-white/60 hover:text-slate-700';
 @endphp
 
@@ -162,7 +162,7 @@
         {{-- Main --}}
         <div class="lg:pl-[17.5rem]">
             <header class="sticky top-0 z-30 px-3 pt-3 sm:px-4 lg:px-6 lg:pt-4">
-                <div class="flex h-16 items-center justify-between gap-3 rounded-[22px] border border-white/70 bg-white/60 px-3 shadow-[0_16px_40px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl sm:px-4">
+                <div class="page-enter flex h-16 items-center justify-between gap-3 rounded-[22px] border border-white/70 bg-white/60 px-3 shadow-[0_16px_40px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl sm:px-4">
                     <div class="flex min-w-0 items-center gap-3">
                         <button @click="sidebarOpen = true" class="rounded-full p-2.5 text-slate-600 transition hover:bg-white/70 lg:hidden">
                             <x-icon name="menu" class="h-5 w-5" />
@@ -185,9 +185,9 @@
 
                         <a href="{{ route('notifications.index') }}"
                            class="relative rounded-full p-2.5 text-slate-600 transition hover:bg-white/70 hover:text-slate-800">
-                            <x-icon name="bell" class="h-5 w-5" />
+                            <x-icon name="bell" class="hover-wiggle h-5 w-5" />
                             @if ($unreadNotificationCount > 0)
-                                <span class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white ring-2 ring-white/80">
+                                <span class="animate-pulse-ring absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white ring-2 ring-white/80">
                                     {{ $unreadNotificationCount > 9 ? '9+' : $unreadNotificationCount }}
                                 </span>
                             @endif
@@ -232,7 +232,7 @@
                 </div>
             </header>
 
-            <main class="mx-auto max-w-[1600px] px-4 pb-32 pt-5 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
+            <main class="page-enter mx-auto max-w-[1600px] px-4 pb-32 pt-5 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
                 @if (session('success'))
                     <x-alert type="success">{{ session('success') }}</x-alert>
                 @endif

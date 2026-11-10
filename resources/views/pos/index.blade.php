@@ -66,7 +66,7 @@
                 <template x-for="product in filteredProducts" :key="product.id">
                     <button type="button" @click="addProduct(product)"
                             :disabled="product.stock <= 0 || quantityInCart(product.id) >= product.stock"
-                            class="group flex h-full flex-col rounded-[22px] border border-white/70 bg-white/55 p-3 text-left shadow-[0_14px_36px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-white/75 hover:shadow-[0_20px_44px_-22px_rgba(79,70,229,0.45)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 sm:p-4">
+                            class="group flex h-full flex-col rounded-[22px] border border-white/70 bg-white/55 p-3 text-left shadow-[0_14px_36px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-white/75 hover:shadow-[0_20px_44px_-22px_rgba(79,70,229,0.45)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 sm:p-4">
                         <div class="flex items-start justify-between gap-2">
                             <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 ring-1 ring-inset ring-indigo-500/15 sm:h-10 sm:w-10">
                                 <x-icon name="cube" class="h-4 w-4 sm:h-5 sm:w-5" />
@@ -79,7 +79,7 @@
                         <p class="mt-0.5 line-clamp-1 text-[10px] text-slate-400" x-text="product.category + ' · ' + product.sku"></p>
                         <div class="mt-auto flex items-end justify-between gap-1 pt-2.5 sm:pt-3">
                             <p class="text-xs font-bold text-indigo-600 sm:text-sm" x-text="'Rp ' + format(product.price)"></p>
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/70 text-slate-500 ring-1 ring-inset ring-slate-900/5 transition group-hover:bg-indigo-600 group-hover:text-white">
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/70 text-slate-500 ring-1 ring-inset ring-slate-900/5 transition duration-200 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white">
                                 <x-icon name="plus" class="h-3.5 w-3.5" />
                             </span>
                         </div>
@@ -93,11 +93,11 @@
         </div>
 
         {{-- Mobile cart backdrop --}}
-        <div x-show="cartOpen" x-cloak @click="cartOpen = false"
+        <div x-show="cartOpen" x-cloak x-transition.opacity @click="cartOpen = false"
              class="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-sm lg:hidden"></div>
 
         {{-- Cart --}}
-        <div class="card hidden min-w-0 lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100dvh-12rem)] lg:flex-col lg:overflow-hidden"
+        <div class="card hidden min-w-0 transition-all duration-300 lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100dvh-12rem)] lg:flex-col lg:overflow-hidden"
              :class="cartOpen ? 'fixed inset-x-0 bottom-0 z-50 !block max-h-[88vh] overflow-y-auto rounded-b-none shadow-2xl lg:sticky lg:rounded-[28px] lg:shadow-sm' : ''">
             <div class="flex shrink-0 items-center justify-between border-b border-slate-900/[0.06] p-4 sm:p-5">
                 <div class="flex items-center gap-2.5">
@@ -133,7 +133,7 @@
 
                     <div class="space-y-3">
                         <template x-for="(item, index) in cart" :key="item.id">
-                            <div class="rounded-2xl border border-white/70 bg-white/55 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
+                            <div class="animate-pop rounded-2xl border border-white/70 bg-white/55 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
                                 <div class="flex items-start justify-between gap-2">
                                     <div class="min-w-0">
                                         <p class="truncate text-xs font-semibold text-slate-800" x-text="item.name"></p>
@@ -244,6 +244,12 @@
 
         {{-- Mobile cart summary bar --}}
         <div x-show="cart.length > 0" x-cloak
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="translate-y-6 opacity-0"
+             x-transition:enter-end="translate-y-0 opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-y-0 opacity-100"
+             x-transition:leave-end="translate-y-6 opacity-0"
              class="fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
             <div class="mx-auto flex max-w-lg items-center gap-3 rounded-[26px] border border-white/70 bg-white/70 p-3 shadow-[0_20px_50px_-16px_rgba(15,23,42,0.5),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-2xl">
                 <div class="min-w-0 flex-1">

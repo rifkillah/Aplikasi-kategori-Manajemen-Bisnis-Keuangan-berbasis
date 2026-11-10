@@ -20,7 +20,7 @@
 
     <div class="grid gap-6 xl:grid-cols-3">
         {{-- Members --}}
-        <div class="card overflow-hidden xl:col-span-2">
+        <div data-reveal class="card overflow-hidden xl:col-span-2">
             <div class="border-b border-slate-100 p-5 sm:p-6">
                 <h2 class="section-title">Anggota tim</h2>
                 <p class="muted mt-0.5">Semua akun yang dapat mengakses workspace ini.</p>
@@ -148,7 +148,7 @@
         </div>
 
         {{-- Add member --}}
-        <div class="card h-fit">
+        <div data-reveal class="card h-fit">
             <div class="border-b border-slate-100 p-5 sm:p-6">
                 <h2 class="section-title">Tambah anggota</h2>
                 <p class="muted mt-0.5">Buat akun baru untuk anggota tim.</p>

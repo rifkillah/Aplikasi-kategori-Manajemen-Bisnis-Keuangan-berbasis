@@ -16,7 +16,7 @@
         <x-stat-card label="Nilai persediaan" :value="rupiah($summary['stock_value'])" icon="banknotes" tone="emerald" hint="Harga beli × stok saat ini" />
     </div>
 
-    <div class="card overflow-hidden">
+    <div data-reveal class="card overflow-hidden">
         <div class="border-b border-slate-100 p-4 sm:p-5">
             <form method="GET" action="{{ route('products.index') }}" class="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <div class="relative flex-1">

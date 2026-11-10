@@ -9,7 +9,7 @@
         @csrf
 
         <div class="space-y-6 xl:col-span-2">
-            <div class="card">
+            <div data-reveal class="card">
                 <div class="border-b border-slate-100 p-5 sm:p-6">
                     <h2 class="section-title">Detail catatan</h2>
                     <p class="muted mt-0.5">Pilih jenis catatan lalu lengkapi informasinya.</p>
@@ -101,7 +101,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ringkasan</p>
                 <p class="mt-2 text-sm font-semibold text-slate-900" x-text="type === 'income' ? 'Pemasukan baru' : 'Pengeluaran baru'"></p>
                 <p class="mt-1 text-3xl font-extrabold tracking-tight"
@@ -112,7 +112,7 @@
                 </p>
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h3 class="text-sm font-bold text-slate-900">Tips pencatatan</h3>
                 <ul class="mt-3 space-y-3 text-xs leading-relaxed text-slate-500">
                     <li><span class="font-semibold text-slate-700">Pengeluaran operasional</span> seperti sewa, listrik, air, internet, dan gaji karyawan.</li>

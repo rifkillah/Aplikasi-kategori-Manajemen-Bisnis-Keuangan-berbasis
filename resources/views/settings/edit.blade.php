@@ -15,7 +15,7 @@
         @method('PATCH')
 
         <div class="space-y-6 xl:col-span-2">
-            <div class="card">
+            <div data-reveal class="card">
                 <div class="border-b border-slate-100 p-5 sm:p-6">
                     <h2 class="section-title">Identitas bisnis</h2>
                     <p class="muted mt-0.5">Data ini digunakan pada header invoice PDF.</p>
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div data-reveal class="card">
                 <div class="border-b border-slate-100 p-5 sm:p-6">
                     <h2 class="section-title">Invoice & pajak</h2>
                     <p class="muted mt-0.5">Atur format nomor invoice dan tarif pajak default.</p>
@@ -85,7 +85,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h3 class="text-sm font-bold text-slate-900">Logo bisnis</h3>
                 <p class="mt-0.5 text-xs text-slate-500">Format PNG, JPG, atau WEBP. Maksimal 2 MB.</p>
 
@@ -109,7 +109,7 @@
                 <x-input-error :messages="$errors->get('logo')" class="mt-2" />
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h3 class="text-sm font-bold text-slate-900">Pratinjau invoice</h3>
                 <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Nomor invoice berikutnya</p>

@@ -60,8 +60,8 @@
 
                         <div class="mt-8 space-y-3">
                             @foreach ($features as $feature)
-                                <div class="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 ring-1 ring-inset ring-white/10">
+                                <div class="hover-lift flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl" data-reveal>
+                                    <div class="icon-pop flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 ring-1 ring-inset ring-white/10">
                                         <x-icon :name="$feature['icon']" class="h-4 w-4" />
                                     </div>
                                     <div>
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="flex flex-1 items-center justify-center px-4 py-6 sm:px-8">
-                    <div class="w-full max-w-md rounded-[32px] border border-white/70 bg-white/60 p-6 shadow-[0_30px_80px_-32px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-2xl sm:p-8">
+                    <div class="animate-pop w-full max-w-md rounded-[32px] border border-white/70 bg-white/60 p-6 shadow-[0_30px_80px_-32px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-2xl sm:p-8">
                         {{ $slot }}
                     </div>
                 </div>

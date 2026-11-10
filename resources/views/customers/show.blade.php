@@ -14,7 +14,7 @@
                 <x-stat-card label="Terakhir order" :value="$summary['last_order'] ? \Illuminate\Support\Carbon::parse($summary['last_order'])->format('d M Y') : '—'" icon="clock" tone="sky" />
             </div>
 
-            <div class="card overflow-hidden">
+            <div data-reveal class="card overflow-hidden">
                 <div class="border-b border-slate-100 p-5 sm:p-6">
                     <h2 class="section-title">Riwayat transaksi</h2>
                     <p class="muted mt-0.5">Semua transaksi yang tercatat untuk pelanggan ini.</p>
@@ -81,7 +81,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-lg font-extrabold text-indigo-600">
                     {{ collect(explode(' ', $customer->name))->take(2)->map(fn($p) => mb_substr($p, 0, 1))->implode('') }}
                 </div>
@@ -110,7 +110,7 @@
                 @endif
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h2 class="section-title">Aksi cepat</h2>
                 <div class="mt-4 space-y-2">
                     <a href="{{ route('pos.index') }}" class="btn-primary w-full"><x-icon name="cart" class="h-4 w-4" /> Transaksi Baru</a>

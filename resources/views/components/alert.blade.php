@@ -17,6 +17,12 @@
 @endphp
 
 <div x-data="{ show: true }" x-show="show" x-cloak
+     x-transition:enter="transition ease-out duration-400"
+     x-transition:enter-start="-translate-y-3 scale-95 opacity-0"
+     x-transition:enter-end="translate-y-0 scale-100 opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="translate-y-0 scale-100 opacity-100"
+     x-transition:leave-end="-translate-y-2 scale-95 opacity-0"
      class="mb-5 flex items-start gap-3 rounded-[22px] border px-4 py-3 text-sm font-medium shadow-[0_14px_36px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-2xl {{ $styles }}">
     <x-icon :name="$icons[$type] ?? 'bell'" class="mt-0.5 h-5 w-5 shrink-0" />
     <div class="flex-1">{{ $slot }}</div>

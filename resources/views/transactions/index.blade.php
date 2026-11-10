@@ -15,7 +15,7 @@
         <x-stat-card label="Rata-rata transaksi" :value="rupiah($summary['count'] > 0 ? $summary['revenue'] / $summary['count'] : 0)" icon="chart" tone="emerald" hint="Nilai belanja rata-rata" />
     </div>
 
-    <div class="card overflow-hidden">
+    <div data-reveal class="card overflow-hidden">
         <div class="border-b border-slate-100 p-4 sm:p-5">
             <form method="GET" action="{{ route('transactions.index') }}" class="flex flex-col gap-3">
                 <div class="flex flex-col gap-3 lg:flex-row">

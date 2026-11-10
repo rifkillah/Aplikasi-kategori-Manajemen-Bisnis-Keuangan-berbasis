@@ -7,7 +7,7 @@
         </x-slot>
     </x-page-header>
 
-    <div class="card mb-6 p-4 sm:p-5">
+    <div data-reveal class="card mb-6 p-4 sm:p-5">
         <form method="GET" action="{{ route('reports.index') }}" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
                 <div>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="mt-6 grid gap-6 xl:grid-cols-3">
-        <div class="card xl:col-span-2">
+        <div data-reveal class="card xl:col-span-2">
             <div class="flex flex-col gap-3 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                 <div>
                     <h2 class="section-title">Arus kas harian</h2>
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div data-reveal class="card">
             <div class="border-b border-slate-100 p-5 sm:p-6">
                 <h2 class="section-title">Ringkasan laba rugi</h2>
                 <p class="muted mt-0.5">Periode {{ \Illuminate\Support\Carbon::parse($from)->translatedFormat('d M') }} – {{ \Illuminate\Support\Carbon::parse($to)->translatedFormat('d M Y') }}</p>
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div class="card mt-6 overflow-hidden">
+    <div data-reveal class="card mt-6 overflow-hidden">
         <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
             <div>
                 <h2 class="section-title">Produk terlaris</h2>

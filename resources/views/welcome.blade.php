@@ -55,7 +55,7 @@
                 </div>
 
                 <h1 class="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
-                    Kelola <span class="bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">kas, stok, dan invoice</span> dalam satu tempat.
+                    Kelola <span class="animate-gradient bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">kas, stok, dan invoice</span> dalam satu tempat.
                 </h1>
 
                 <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-400">
@@ -80,7 +80,7 @@
             </div>
 
             {{-- Product mockup --}}
-            <div class="relative lg:pl-6">
+            <div class="animate-float-slow relative lg:pl-6">
                 <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-indigo-500/25 to-violet-500/10 blur-2xl"></div>
                 <div class="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900 shadow-2xl shadow-indigo-950/50">
                     <div class="flex items-center gap-1.5 border-b border-white/5 bg-slate-950/60 px-4 py-3">
@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="mt-3 flex h-20 items-end gap-2">
                                     @foreach ([42, 55, 48, 70, 64, 88] as $index => $height)
-                                        <div class="flex flex-1 items-end gap-0.5">
+                                        <div class="flex h-full flex-1 items-end gap-0.5">
                                             <div class="flex-1 rounded-t bg-indigo-500/80" style="height: {{ $height }}%"></div>
                                             <div class="flex-1 rounded-t bg-violet-500/30" style="height: {{ $height * 0.55 }}%"></div>
                                         </div>
@@ -166,7 +166,7 @@
         <section class="relative z-10 border-t border-white/5 bg-slate-950/50">
             <div class="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-8 sm:px-8 md:grid-cols-4">
                 @foreach ([['1.200+', 'UMKM aktif'], ['48 rb+', 'Transaksi tercatat'], ['99,9%', 'Uptime sistem'], ['4,9/5', 'Rating pengguna']] as [$value, $label])
-                    <div class="text-center">
+                    <div class="text-center" data-reveal>
                         <p class="text-2xl font-extrabold text-white">{{ $value }}</p>
                         <p class="mt-1 text-xs text-slate-500">{{ $label }}</p>
                     </div>
@@ -197,8 +197,8 @@
                 @endphp
 
                 @foreach ($features as [$icon, $title, $description, $tone])
-                    <div class="group rounded-[26px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:bg-white/75 hover:shadow-[0_26px_60px_-26px_rgba(79,70,229,0.35)]">
-                        <div class="flex h-11 w-11 items-center justify-center rounded-2xl ring-1 ring-inset ring-white/50 {{ $tone }}">
+                    <div class="group hover-lift rounded-[26px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:bg-white/75 hover:shadow-[0_26px_60px_-26px_rgba(79,70,229,0.35)]" data-reveal>
+                        <div class="icon-pop flex h-11 w-11 items-center justify-center rounded-2xl ring-1 ring-inset ring-white/50 {{ $tone }}">
                             <x-icon :name="$icon" class="h-5 w-5" />
                         </div>
                         <h3 class="mt-5 text-base font-bold text-slate-900">{{ $title }}</h3>
@@ -224,7 +224,7 @@
                             ['02', 'Tambahkan produk & stok', 'Input produk dengan SKU, barcode, harga beli, harga jual, dan batas stok minimum.'],
                             ['03', 'Jualan & pantau laporan', 'Gunakan kasir untuk transaksi harian. Pantau stok dan laba rugi secara real-time.'],
                         ] as [$number, $title, $text])
-                            <div class="flex gap-4">
+                            <div class="flex gap-4" data-reveal>
                                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-lg shadow-indigo-600/20">{{ $number }}</div>
                                 <div>
                                     <h3 class="text-sm font-bold text-slate-900">{{ $title }}</h3>
@@ -304,7 +304,7 @@
                 @endphp
 
                 @foreach ($plans as [$name, $price, $description, $features, $popular])
-                    <div class="relative rounded-[26px] border p-6 backdrop-blur-2xl {{ $popular ? 'border-white/15 bg-slate-950/90 text-white shadow-[0_30px_70px_-30px_rgba(79,70,229,0.7)]' : 'border-white/70 bg-white/55 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)]' }}">
+                    <div class="relative rounded-[26px] border p-6 backdrop-blur-2xl {{ $popular ? 'border-white/15 bg-slate-950/90 text-white shadow-[0_30px_70px_-30px_rgba(79,70,229,0.7)]' : 'border-white/70 bg-white/55 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.4),inset_0_1px_0_rgba(255,255,255,0.9)]' }}" data-reveal>
                         @if ($popular)
                             <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-500 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Paling populer</span>
                         @endif
@@ -336,7 +336,7 @@
     {{-- CTA --}}
     <section class="py-20">
         <div class="mx-auto max-w-5xl px-5 sm:px-8">
-            <div class="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/90 px-6 py-14 text-center shadow-[0_40px_100px_-40px_rgba(2,6,23,0.9)] backdrop-blur-2xl sm:px-12">
+            <div class="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/90 px-6 py-14 text-center shadow-[0_40px_100px_-40px_rgba(2,6,23,0.9)] backdrop-blur-2xl sm:px-12" data-reveal>
                 <div class="pointer-events-none absolute inset-0">
                     <div class="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-indigo-600/30 blur-3xl"></div>
                     <div class="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-violet-600/25 blur-3xl"></div>

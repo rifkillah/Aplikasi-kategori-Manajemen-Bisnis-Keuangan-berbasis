@@ -29,33 +29,33 @@
     <div class="grid gap-6 xl:grid-cols-3">
         <div class="space-y-6 xl:col-span-2">
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="card p-5">
+                <div data-reveal class="card p-5">
                     <p class="text-xs font-medium text-slate-500">Stok saat ini</p>
                     <p class="mt-1 text-2xl font-bold {{ $product->stock <= 0 ? 'text-rose-600' : ($product->is_low_stock ? 'text-amber-600' : 'text-slate-900') }}">
                         {{ $product->stock }}
                     </p>
                     <p class="mt-1 text-[11px] text-slate-400">{{ $product->unit }} · min. {{ $product->min_stock_alert }}</p>
                 </div>
-                <div class="card p-5">
+                <div data-reveal class="card p-5">
                     <p class="text-xs font-medium text-slate-500">Harga jual</p>
                     <p class="mt-1 text-2xl font-bold text-slate-900">{{ rupiah($product->selling_price) }}</p>
                     <p class="mt-1 text-[11px] text-slate-400">Beli {{ rupiah($product->purchase_price) }}</p>
                 </div>
-                <div class="card p-5">
+                <div data-reveal class="card p-5">
                     <p class="text-xs font-medium text-slate-500">Margin kotor</p>
                     <p class="mt-1 text-2xl font-bold text-emerald-600">
                         {{ $product->selling_price > 0 ? number_format((($product->selling_price - $product->purchase_price) / $product->selling_price) * 100, 0) : 0 }}%
                     </p>
                     <p class="mt-1 text-[11px] text-slate-400">{{ rupiah($product->selling_price - $product->purchase_price) }} / unit</p>
                 </div>
-                <div class="card p-5">
+                <div data-reveal class="card p-5">
                     <p class="text-xs font-medium text-slate-500">Total terjual</p>
                     <p class="mt-1 text-2xl font-bold text-slate-900">{{ number_format($sold->qty ?? 0, 0, ',', '.') }}</p>
                     <p class="mt-1 text-[11px] text-slate-400">{{ rupiah($sold->revenue ?? 0) }} omzet</p>
                 </div>
             </div>
 
-            <div class="card overflow-hidden">
+            <div data-reveal class="card overflow-hidden">
                 <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                     <div>
                         <h2 class="section-title">Riwayat pergerakan stok</h2>
@@ -134,7 +134,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h2 class="section-title">Detail produk</h2>
                 <dl class="mt-4 space-y-3 text-sm">
                     <div class="flex items-center justify-between gap-4">
@@ -170,7 +170,7 @@
                 </dl>
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h2 class="section-title">Aksi cepat</h2>
                 <div class="mt-4 space-y-2">
                     <a href="{{ route('stock.create', ['product' => $product->id, 'type' => 'in']) }}" class="btn-secondary w-full justify-start">

@@ -7,7 +7,7 @@
         </x-slot>
     </x-page-header>
 
-    <div class="card overflow-hidden">
+    <div data-reveal class="card overflow-hidden">
         <div class="border-b border-slate-100 p-4 sm:p-5">
             <form method="GET" action="{{ route('customers.index') }}" class="flex flex-col gap-2 sm:flex-row">
                 <div class="relative flex-1">

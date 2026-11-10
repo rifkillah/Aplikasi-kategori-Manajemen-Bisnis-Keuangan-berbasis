@@ -16,7 +16,7 @@
     </x-page-header>
 
     <div class="grid gap-6 xl:grid-cols-3">
-        <div class="card overflow-hidden xl:col-span-2">
+        <div data-reveal class="card overflow-hidden xl:col-span-2">
             <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                 <div>
                     <h2 class="section-title">Kotak masuk</h2>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <div class="flex items-center gap-3">
                     <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                         <x-icon name="bell" class="h-5 w-5" />
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="card p-5 sm:p-6">
+            <div data-reveal class="card p-5 sm:p-6">
                 <h3 class="text-sm font-bold text-slate-900">Cara kerja notifikasi</h3>
                 <ul class="mt-3 space-y-3 text-xs leading-relaxed text-slate-500">
                     <li><span class="font-semibold text-slate-700">Stok menipis</span> dikirim ke owner saat stok produk menyentuh atau melewati batas minimum.</li>

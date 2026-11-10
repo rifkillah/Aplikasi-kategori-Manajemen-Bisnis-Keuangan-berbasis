@@ -9,7 +9,7 @@
 
     <div class="grid gap-6 lg:grid-cols-3">
         <div class="lg:col-span-1">
-            <div class="card p-5 sm:p-6 lg:sticky lg:top-24">
+            <div data-reveal class="card p-5 sm:p-6 lg:sticky lg:top-24">
                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                     <x-icon name="tag" class="h-5 w-5" />
                 </div>
@@ -38,7 +38,7 @@
         <div class="lg:col-span-2">
             <div class="space-y-3">
                 @forelse ($categories as $category)
-                    <div class="card p-5" x-data="{ editing: false }">
+                    <div data-reveal class="card p-5" x-data="{ editing: false }">
                         <div x-show="!editing" class="flex items-start gap-4">
                             <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
                                 <x-icon name="tag" class="h-5 w-5" />
@@ -85,7 +85,7 @@
                         </form>
                     </div>
                 @empty
-                    <div class="card">
+                    <div data-reveal class="card">
                         <x-empty-state title="Belum ada kategori" description="Tambahkan kategori pertama melalui formulir di samping." icon="tag" />
                     </div>
                 @endforelse

@@ -40,7 +40,7 @@
 
     <div class="mt-6 grid gap-6 xl:grid-cols-3">
         {{-- Chart --}}
-        <div class="card xl:col-span-2">
+        <div class="card card-hover xl:col-span-2" data-reveal>
             <div class="flex flex-col gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                 <div>
                     <h2 class="section-title">Arus kas 6 bulan terakhir</h2>
@@ -59,7 +59,7 @@
         </div>
 
         {{-- Top products --}}
-        <div class="card">
+        <div class="card card-hover" data-reveal>
             <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                 <div>
                     <h2 class="section-title">Produk terlaris</h2>
@@ -97,7 +97,7 @@
     <div class="mt-6 grid gap-6 {{ $user->canOperateCashier() ? 'xl:grid-cols-5' : 'xl:grid-cols-3' }}">
         {{-- Recent transactions --}}
         @if ($user->canOperateCashier())
-            <div class="card overflow-hidden xl:col-span-3">
+            <div class="card card-hover overflow-hidden xl:col-span-3" data-reveal>
                 <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                     <div>
                         <h2 class="section-title">Transaksi terbaru</h2>
@@ -176,7 +176,7 @@
         @endif
 
         {{-- Low stock --}}
-        <div class="card xl:col-span-2">
+        <div class="card card-hover xl:col-span-2" data-reveal>
             <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                 <div>
                     <h2 class="section-title">Perlu restock</h2>

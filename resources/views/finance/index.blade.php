@@ -18,7 +18,7 @@
                      :hint="$summary['difference'] < 0 ? 'Pengeluaran lebih besar' : 'Pemasukan lebih besar'" />
     </div>
 
-    <div class="card overflow-hidden">
+    <div data-reveal class="card overflow-hidden">
         <div class="border-b border-slate-100 p-4 sm:p-5">
             <form method="GET" action="{{ route('finance.index') }}" class="flex flex-col gap-3">
                 <div class="flex flex-col gap-3 lg:flex-row">

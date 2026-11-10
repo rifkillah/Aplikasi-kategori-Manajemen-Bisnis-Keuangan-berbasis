@@ -16,7 +16,7 @@
         <x-stat-card label="Total catatan" :value="$logs->total().' entri'" icon="archive" tone="indigo" hint="Sesuai filter aktif" />
     </div>
 
-    <div class="card overflow-hidden">
+    <div data-reveal class="card overflow-hidden">
         <div class="border-b border-slate-100 p-4 sm:p-5">
             <form method="GET" action="{{ route('stock.index') }}" class="flex flex-col gap-3">
                 <div class="flex flex-col gap-3 lg:flex-row">
