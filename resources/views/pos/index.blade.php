@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div x-data="posApp()" x-effect="document.body.classList.toggle('overflow-hidden', cartOpen)"
+    <div x-data="posApp()" x-effect="document.body.classList.toggle('overflow-hidden', cartOpen); document.body.classList.toggle('cart-sheet-open', cartOpen)"
          @keydown.escape.window="cartOpen = false"
          class="grid grid-cols-1 items-start gap-6 pb-24 lg:grid-cols-[1.55fr_1fr] lg:pb-0">
         {{-- Products panel --}}
@@ -250,7 +250,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="translate-y-0 opacity-100"
              x-transition:leave-end="translate-y-6 opacity-0"
-             class="fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
+             class="fixed inset-x-0 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 px-3 pb-1 lg:hidden">
             <div class="mx-auto flex max-w-lg items-center gap-3 rounded-[26px] border border-white/70 bg-white/70 p-3 shadow-[0_20px_50px_-16px_rgba(15,23,42,0.5),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-2xl">
                 <div class="min-w-0 flex-1">
                     <p class="text-[11px] text-slate-500">

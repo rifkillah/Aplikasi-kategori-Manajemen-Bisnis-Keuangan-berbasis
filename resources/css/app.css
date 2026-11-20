@@ -364,7 +364,7 @@
 
     /* Entrance for the main content area on every page load. */
     .page-enter {
-        animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
 
     /* Scroll reveal. The hidden state only applies once JS marks <html>,
@@ -873,4 +873,9 @@ html[data-theme='light'] header :where(.text-slate-400, .text-slate-500) {
 
 html[data-theme='light'] main :where(.placeholder\:text-slate-400)::placeholder {
     color: #64748b;
+}
+
+/* POS: hide the floating tab bar while the mobile cart sheet is open. */
+body.cart-sheet-open .app-tabbar {
+    display: none;
 }

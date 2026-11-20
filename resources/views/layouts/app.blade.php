@@ -154,10 +154,6 @@
             <header class="sticky top-0 z-30 px-3 pt-3 sm:px-4 lg:px-6 lg:pt-4">
                 <div class="app-glass page-enter flex h-16 items-center justify-between gap-3 rounded-[22px] border border-white/80 bg-white/75 px-3 shadow-[0_16px_40px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-4">
                     <div class="flex min-w-0 items-center gap-3">
-                        <button @click="sidebarOpen = true" aria-label="Buka menu"
-                                class="-ml-1 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full text-slate-600 transition hover:bg-white/70 active:scale-90 lg:hidden">
-                            <x-icon name="menu" class="h-5 w-5" />
-                        </button>
                         <div class="min-w-0">
                             <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
                                 <span>Kasirin</span>
@@ -258,13 +254,11 @@
                 {{ $slot }}
             </main>
         </div>
-    </div>
 
-    {{-- Mobile bottom navigation — floating liquid glass tab bar --}}
-    @unless (request()->routeIs('pos.*'))
+        {{-- Mobile bottom navigation — floating liquid glass tab bar --}}
         <nav x-show="!sidebarOpen" x-cloak
              x-transition:enter="transition duration-200" x-transition:enter-start="translate-y-6 opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
-             class="fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 lg:hidden">
+             class="app-tabbar fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 lg:hidden">
             <div class="app-glass mx-auto flex max-w-md items-stretch justify-around gap-1 rounded-[26px] border border-white/80 bg-white/80 p-2 shadow-[0_20px_50px_-16px_rgba(15,23,42,0.5),inset_0_1px_0_rgba(255,255,255,0.95)]">
                 <a href="{{ route('dashboard') }}" class="{{ $tabBase }} {{ request()->routeIs('dashboard') ? $tabOn : $tabOff }}">
                     <x-icon name="home" class="h-5 w-5" />
@@ -295,7 +289,7 @@
                 </button>
             </div>
         </nav>
-    @endunless
+    </div>
 
     @stack('scripts')
 </body>
