@@ -1,5 +1,11 @@
 <x-app-layout>
-    <x-page-header title="Profil Saya" subtitle="Kelola informasi akun dan keamanan akses Anda." />
+    <x-page-header title="Profil Saya" subtitle="Kelola informasi akun dan keamanan akses Anda.">
+        <x-slot name="actions">
+            <a href="{{ route('appearance.edit') }}" class="btn-secondary">
+                <x-icon name="palette" class="h-4 w-4" /> Tampilan & Latar
+            </a>
+        </x-slot>
+    </x-page-header>
 
     <div class="grid gap-6 xl:grid-cols-3">
         <div class="space-y-6 xl:col-span-2">
@@ -36,16 +42,43 @@
 
         <div class="space-y-6">
             <div data-reveal class="card p-5 text-center sm:p-6">
-                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-2xl font-extrabold text-white shadow-lg shadow-indigo-500/20">
-                    {{ $user->initials }}
-                </div>
+                <x-user-avatar :user="$user" size="h-24 w-24" text="text-2xl" rounded="rounded-3xl"
+                               class="mx-auto shadow-lg shadow-indigo-500/25" />
                 <p class="mt-4 text-lg font-bold text-slate-900">{{ $user->name }}</p>
                 <p class="text-sm text-slate-500">{{ $user->email }}</p>
                 <div class="mt-3 flex justify-center">
                     <x-badge :tone="$user->isOwner() ? 'success' : ($user->hasRole('kasir') ? 'info' : 'warning')">{{ $user->role_label }}</x-badge>
                 </div>
 
-                <div class="mt-6 space-y-3 border-t border-slate-100 pt-5 text-left text-xs">
+                <div class="mt-5 border-t border-slate-100 pt-4 text-left">
+                    <form method="POST" action="{{ route('profile.avatar.update') }}" enctype="multipart/form-data"
+                          x-data="{ name: '' }" class="space-y-2">
+                        @csrf
+                        <label for="avatar" class="label">Foto profil</label>
+                        <label for="avatar" class="btn-secondary w-full cursor-pointer justify-center">
+                            <x-icon name="image" class="h-4 w-4" /> Pilih Foto
+                        </label>
+                        <input id="avatar" name="avatar" type="file" accept="image/png,image/jpeg,image/webp"
+                               class="sr-only" required @change="name = $event.target.files[0]?.name || ''">
+                        <p class="truncate text-[11px] text-slate-400" x-text="name || 'PNG, JPG, atau WEBP · maks. 2 MB'"></p>
+                        <x-input-error :messages="$errors->get('avatar')" />
+                        <button type="submit" class="btn-primary w-full justify-center">
+                            <x-icon name="check" class="h-4 w-4" /> Simpan Foto
+                        </button>
+                    </form>
+
+                    @if ($user->avatar)
+                        <form method="POST" action="{{ route('profile.avatar.destroy') }}" class="mt-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-ghost w-full justify-center text-rose-600 hover:bg-rose-50/80 hover:text-rose-700">
+                                <x-icon name="trash" class="h-4 w-4" /> Hapus Foto
+                            </button>
+                        </form>
+                    @endif
+                </div>
+
+                <div class="mt-5 space-y-3 border-t border-slate-100 pt-5 text-left text-xs">
                     <div class="flex items-center justify-between">
                         <span class="text-slate-500">Bisnis</span>
                         <span class="font-semibold text-slate-700">{{ $user->tenant?->business_name ?? '—' }}</span>

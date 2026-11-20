@@ -27,11 +27,14 @@ class AppearanceController extends Controller
         $validated = $request->validate([
             'theme_mode' => ['required', Rule::in(array_keys(config('appearance.modes')))],
             'background_preset' => ['required', Rule::in([...array_keys(config('appearance.presets')), 'custom'])],
+            'glass_blur' => ['nullable', 'integer', 'min:0', 'max:40'],
             'wallpaper' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
             'remove_wallpaper' => ['nullable', 'boolean'],
         ], [
             'wallpaper.max' => 'Ukuran wallpaper maksimal 4 MB.',
             'wallpaper.image' => 'Wallpaper harus berupa gambar.',
+            'glass_blur.min' => 'Tingkat blur minimal 0 px.',
+            'glass_blur.max' => 'Tingkat blur maksimal 40 px.',
         ]);
 
         $wallpaperPath = $user->background_image;
@@ -61,6 +64,7 @@ class AppearanceController extends Controller
             'theme_mode' => $validated['theme_mode'],
             'background_preset' => $preset,
             'background_image' => $wallpaperPath,
+            'glass_blur' => (int) ($validated['glass_blur'] ?? $user->glass_blur ?? 24),
         ]);
 
         return redirect()

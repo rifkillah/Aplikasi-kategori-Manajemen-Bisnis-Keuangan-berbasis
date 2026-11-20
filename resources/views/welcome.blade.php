@@ -106,7 +106,7 @@
                         <div class="flex-1 p-4 sm:p-5">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-[10px] text-slate-500">Selamat pagi, Aditya 👋</p>
+                                    <p class="text-[10px] text-slate-500">Selamat pagi, Rifkillah 👋</p>
                                     <p class="text-sm font-bold text-white">Ringkasan Bisnis</p>
                                 </div>
                                 <span class="rounded-lg bg-indigo-500/15 px-2 py-1 text-[9px] font-semibold text-indigo-300">November</span>

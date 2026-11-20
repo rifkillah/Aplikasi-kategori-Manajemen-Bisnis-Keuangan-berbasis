@@ -17,6 +17,7 @@
           x-data="appearanceForm(@js([
               'mode' => old('theme_mode', $user->theme_mode ?: 'system'),
               'preset' => old('background_preset', $user->background_preset ?: 'aurora'),
+              'blur' => (int) old('glass_blur', $user->glass_blur ?? 24),
               'wallpaper' => $wallpaperUrl,
               'presets' => $presets,
           ]))"
@@ -94,6 +95,45 @@
                 </div>
             </div>
 
+            {{-- Glass blur --}}
+            <div data-reveal class="card">
+                <div class="border-b border-slate-100 p-5 sm:p-6">
+                    <h2 class="section-title">Ketebalan kaca</h2>
+                    <p class="muted mt-0.5">Atur seberapa buram kotak informasi. Naikkan bila teks terasa menyatu dengan latar.</p>
+                </div>
+
+                <div class="p-5 sm:p-6">
+                    <div class="flex items-center justify-between gap-3">
+                        <label for="glass_blur" class="label mb-0">Tingkat keburaman</label>
+                        <span class="rounded-full bg-indigo-50/80 px-3 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-500/20"
+                              x-text="blur + ' px'"></span>
+                    </div>
+
+                    <input id="glass_blur" name="glass_blur" type="range" min="0" max="40" step="4"
+                           x-model.number="blur" @input="setBlur(blur)"
+                           class="mt-4 h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600">
+
+                    <div class="mt-1.5 flex justify-between text-[10px] font-medium text-slate-500">
+                        <span>Jernih</span>
+                        <span>Buram</span>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        @foreach ([0, 8, 16, 24, 32, 40] as $value)
+                            <button type="button" @click="setBlur({{ $value }})"
+                                    :class="blur === {{ $value }} ? 'border-indigo-400 bg-indigo-50/80 text-indigo-700' : 'border-white/80 bg-white/60 text-slate-600 hover:bg-white/85'"
+                                    class="touch-manipulation rounded-full border px-3.5 py-2 text-xs font-semibold transition active:scale-95">
+                                {{ $value }} px
+                            </button>
+                        @endforeach
+                    </div>
+
+                    <p class="mt-3 text-[11px] leading-relaxed text-slate-500">
+                        0 px membuat kaca sepenuhnya jernih. 24 px adalah bawaan yang seimbang untuk sebagian besar layar.
+                    </p>
+                </div>
+            </div>
+
             {{-- Wallpaper upload --}}
             <div data-reveal class="card">
                 <div class="border-b border-slate-100 p-5 sm:p-6">
@@ -155,7 +195,7 @@
                             <span class="rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold text-slate-700 backdrop-blur">Kasirin</span>
                             <span class="rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold text-slate-700 backdrop-blur" x-text="modeLabel"></span>
                         </div>
-                        <div class="rounded-xl border border-white/70 bg-white/65 p-3 shadow-sm backdrop-blur-xl">
+                        <div class="app-glass rounded-xl border border-white/80 bg-white/75 p-3 shadow-sm">
                             <p class="text-[10px] font-medium text-slate-500">Penjualan hari ini</p>
                             <p class="mt-0.5 text-lg font-extrabold text-slate-900">Rp 2.470.860</p>
                         </div>
@@ -203,10 +243,15 @@
                 return {
                     mode: config.mode,
                     preset: config.preset,
+                    blur: Number(config.blur ?? 24),
                     preview: config.wallpaper,
                     presets: config.presets,
                     removed: false,
                     fileName: '',
+
+                    init() {
+                        this.setBlur(this.blur);
+                    },
 
                     get modeLabel() {
                         return { system: 'Ikuti sistem', light: 'Terang', dark: 'Gelap' }[this.mode] || 'Ikuti sistem';
@@ -214,7 +259,7 @@
 
                     get previewStyle() {
                         if (this.preset === 'custom' && this.preview) {
-                            const scrim = this.mode === 'dark' ? 'rgba(7,11,26,0.8)' : 'rgba(238,240,251,0.72)';
+                            const scrim = this.mode === 'dark' ? 'rgba(7,11,26,0.86)' : 'rgba(238,240,251,0.82)';
 
                             return {
                                 backgroundImage: `linear-gradient(${scrim}, ${scrim}), url('${this.preview}')`,
@@ -231,6 +276,11 @@
                     setMode(mode) {
                         this.mode = mode;
                         window.applyAppTheme(mode);
+                    },
+
+                    setBlur(value) {
+                        this.blur = Math.max(0, Math.min(40, Number(value) || 0));
+                        document.documentElement.style.setProperty('--glass-blur', `${this.blur}px`);
                     },
 
                     setPreset(preset) {
@@ -281,6 +331,7 @@
                         this.fileName = '';
                         this.preview = null;
                         this.setPreset('aurora');
+                        this.setBlur(24);
                     },
                 };
             }

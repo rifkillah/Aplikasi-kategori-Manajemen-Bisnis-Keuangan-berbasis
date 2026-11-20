@@ -31,9 +31,7 @@
                 @foreach ($users as $member)
                     <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                         <div class="flex items-start gap-3">
-                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-[11px] font-bold text-white">
-                                {{ $member->initials }}
-                            </span>
+                            <x-user-avatar :user="$member" size="h-10 w-10" text="text-[11px]" />
                             <div class="min-w-0 flex-1">
                                 <p class="truncate text-sm font-bold text-slate-800">
                                     {{ $member->name }}
@@ -89,9 +87,7 @@
                             <tr>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-[11px] font-bold text-white">
-                                            {{ $member->initials }}
-                                        </span>
+                                        <x-user-avatar :user="$member" size="h-9 w-9" text="text-[11px]" />
                                         <div class="min-w-0">
                                             <p class="truncate text-sm font-semibold text-slate-800">
                                                 {{ $member->name }}

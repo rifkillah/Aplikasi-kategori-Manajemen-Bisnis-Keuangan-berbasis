@@ -32,7 +32,7 @@ class DemoSeeder extends Seeder
         );
 
         $users = [
-            ['name' => 'Aditya Pratama', 'email' => 'owner@demo.com', 'role' => 'owner'],
+            ['name' => 'Rifkillah Muliya Al-faris', 'email' => 'owner@demo.com', 'role' => 'owner'],
             ['name' => 'Sari Wulandari', 'email' => 'kasir@demo.com', 'role' => 'kasir'],
             ['name' => 'Budi Santoso', 'email' => 'gudang@demo.com', 'role' => 'gudang'],
         ];

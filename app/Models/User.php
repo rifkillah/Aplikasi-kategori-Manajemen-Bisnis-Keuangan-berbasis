@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'theme_mode',
         'background_preset',
         'background_image',
+        'avatar',
+        'glass_blur',
     ];
 
     protected $hidden = [
@@ -37,6 +40,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'glass_blur' => 'integer',
         ];
     }
 
@@ -72,6 +76,13 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))
             ->implode('');
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar
+            ? Storage::disk('public')->url($this->avatar)
+            : null;
     }
 
     public function getRoleLabelAttribute(): string

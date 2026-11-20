@@ -130,4 +130,34 @@ class AppearanceTest extends TestCase
 
         $this->assertSame('system', $user->refresh()->theme_mode);
     }
+
+    public function test_glass_blur_level_can_be_adjusted(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->patch('/appearance', [
+                'theme_mode' => 'system',
+                'background_preset' => 'aurora',
+                'glass_blur' => 32,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(32, $user->refresh()->glass_blur);
+    }
+
+    public function test_glass_blur_level_outside_the_allowed_range_is_rejected(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->patch('/appearance', [
+                'theme_mode' => 'system',
+                'background_preset' => 'aurora',
+                'glass_blur' => 99,
+            ])
+            ->assertSessionHasErrors('glass_blur');
+
+        $this->assertSame(24, $user->refresh()->glass_blur);
+    }
 }

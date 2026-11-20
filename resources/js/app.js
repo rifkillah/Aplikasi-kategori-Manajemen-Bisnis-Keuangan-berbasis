@@ -49,9 +49,12 @@ window.themeToggle = function (initial) {
 
         cycle() {
             const order = ['system', 'light', 'dark'];
-            this.mode = order[(order.indexOf(this.mode) + 1) % order.length];
+            this.set(order[(order.indexOf(this.mode) + 1) % order.length]);
+        },
 
-            window.applyAppTheme(this.mode);
+        set(mode) {
+            this.mode = mode;
+            window.applyAppTheme(mode);
 
             const url = this.$el?.dataset?.themeUrl;
             if (!url) {
