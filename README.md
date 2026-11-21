@@ -1,6 +1,6 @@
 # Kasirin — Kasir, Keuangan & Inventaris UMKM
 
-Kasirin adalah aplikasi web **multi-tenant** untuk membantu UMKM mengelola penjualan, keuangan, dan stok barang dalam satu tempat. Dibangun dengan Laravel 12, aplikasi ini mencakup POS (point of sale), invoice PDF otomatis, pencatatan pemasukan/pengeluaran, laporan laba rugi, peringatan stok menipis, serta manajemen tim dengan hak akses berbeda.
+Kasirin adalah aplikasi web **multi-tenant** untuk membantu UMKM mengelola penjualan, keuangan, dan stok barang dalam satu tempat. Dibangun dengan Laravel 13, aplikasi ini mencakup POS (point of sale), invoice PDF otomatis, pencatatan pemasukan/pengeluaran, laporan laba rugi, peringatan stok menipis, serta manajemen tim dengan hak akses berbeda.
 
 Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisnis terisolasi secara otomatis melalui global scope `tenant_id`.
 
@@ -75,7 +75,7 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 
 | Komponen | Teknologi |
 |---|---|
-| Backend | Laravel 12, PHP ≥ 8.2 |
+| Backend | Laravel 13, PHP ≥ 8.3 |
 | Autentikasi | Laravel Breeze (Blade) |
 | Hak akses | spatie/laravel-permission 8 |
 | PDF | barryvdh/laravel-dompdf 3 |
@@ -83,18 +83,18 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 | Grafik | Chart.js 4 |
 | Database | MySQL (default) / SQLite |
 | Queue | Database driver |
-| Testing | PHPUnit 11 |
+| Testing | PHPUnit 12 |
 
 ---
 
 ## Kebutuhan Sistem
 
-- PHP **8.2+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
+- PHP **8.3+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
 - Composer 2.
 - Node.js 18+ dan npm (untuk build asset).
 - Tidak wajib Redis — queue, cache, dan session memakai database.
 
-> Catatan: proyek ini dikembangkan dengan PHP 8.5 dan Laravel 12.7.
+> Catatan: proyek ini dikembangkan dengan PHP 8.5 dan Laravel 13.43.
 
 ---
 
