@@ -6,6 +6,38 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 
 ---
 
+## Screenshot
+
+![Dashboard Kasirin](docs/screenshots/dashboard.webp)
+
+### Desktop
+
+| Dashboard | Mode gelap |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.webp) | ![Dashboard mode gelap](docs/screenshots/dashboard-dark.webp) |
+
+| Kasir / POS | Tampilan & latar belakang |
+|---|---|
+| ![POS](docs/screenshots/pos.webp) | ![Tampilan](docs/screenshots/appearance.webp) |
+
+| Laporan keuangan | Login |
+|---|---|
+| ![Laporan](docs/screenshots/reports.webp) | ![Login](docs/screenshots/login.webp) |
+
+### Mobile
+
+| Dashboard | Menu navigasi |
+|---|---|
+| ![Dashboard mobile](docs/screenshots/mobile-dashboard.webp) | ![Menu mobile](docs/screenshots/mobile-menu.webp) |
+
+| Kasir mobile | Tampilan mobile |
+|---|---|
+| ![POS mobile](docs/screenshots/mobile-pos.webp) | ![Tampilan mobile](docs/screenshots/mobile-appearance.webp) |
+
+> Tangkapan layar menggunakan data demo (`DemoSeeder`). Tampilan aktual dapat berbeda tergantung data dan preferensi tema masing-masing akun.
+
+---
+
 ## Fitur Utama
 
 ### Penjualan & Kasir
