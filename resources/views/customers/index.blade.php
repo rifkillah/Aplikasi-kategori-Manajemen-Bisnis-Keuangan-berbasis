@@ -34,7 +34,7 @@
             {{-- Mobile cards --}}
             <div class="space-y-3 p-4 md:hidden">
                 @foreach ($customers as $customer)
-                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                         <div class="flex items-start gap-3">
                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-xs font-bold text-indigo-600">
                                 {{ collect(explode(' ', $customer->name))->take(2)->map(fn($p) => mb_substr($p, 0, 1))->implode('') }}

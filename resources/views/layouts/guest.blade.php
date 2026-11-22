@@ -81,11 +81,11 @@
             {{-- Form side --}}
             <div class="flex min-h-screen min-w-0 flex-col">
                 <div class="flex items-center justify-between px-4 py-4 lg:hidden">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 rounded-full border border-white/70 bg-white/60 py-1.5 pl-1.5 pr-4 shadow-sm backdrop-blur-xl">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 rounded-full border border-white/70 bg-white/60 py-1.5 pl-1.5 pr-4 shadow-xs backdrop-blur-xl">
                         <x-application-logo class="h-8 w-8" />
                         <span class="text-base font-extrabold tracking-tight text-slate-900">Kasirin<span class="text-indigo-500">.</span></span>
                     </a>
-                    <a href="{{ route('home') }}" class="rounded-full border border-white/70 bg-white/60 px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm backdrop-blur-xl">Kembali</a>
+                    <a href="{{ route('home') }}" class="rounded-full border border-white/70 bg-white/60 px-4 py-2 text-sm font-semibold text-slate-600 shadow-xs backdrop-blur-xl">Kembali</a>
                 </div>
 
                 <div class="flex flex-1 items-center justify-center px-4 py-6 sm:px-8">

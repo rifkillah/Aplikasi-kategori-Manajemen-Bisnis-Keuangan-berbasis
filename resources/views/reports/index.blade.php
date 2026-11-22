@@ -107,7 +107,7 @@
             {{-- Mobile cards --}}
             <div class="space-y-3 p-4 md:hidden">
                 @foreach ($topProducts as $index => $product)
-                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                         <div class="flex items-start gap-3">
                             <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-bold text-slate-500">{{ $index + 1 }}</span>
                             <div class="min-w-0 flex-1">

@@ -29,7 +29,7 @@
             {{-- Mobile cards --}}
             <div class="space-y-3 p-4 md:hidden">
                 @foreach ($users as $member)
-                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                         <div class="flex items-start gap-3">
                             <x-user-avatar :user="$member" size="h-10 w-10" text="text-[11px]" />
                             <div class="min-w-0 flex-1">

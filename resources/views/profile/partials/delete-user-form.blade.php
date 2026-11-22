@@ -8,7 +8,7 @@
     </button>
 
     <div x-show="confirmDelete" x-cloak class="fixed inset-0 z-50 overflow-y-auto px-4 py-6">
-        <div x-show="confirmDelete" x-transition.opacity @click="confirmDelete = false" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+        <div x-show="confirmDelete" x-transition.opacity @click="confirmDelete = false" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs"></div>
 
         <div x-show="confirmDelete" x-transition class="relative mx-auto w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
             <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600">

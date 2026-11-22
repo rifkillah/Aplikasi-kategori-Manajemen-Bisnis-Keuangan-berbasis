@@ -79,11 +79,11 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 | Autentikasi | Laravel Breeze (Blade) |
 | Hak akses | spatie/laravel-permission 8 |
 | PDF | barryvdh/laravel-dompdf 3 |
-| Frontend | Blade, Tailwind CSS, Alpine.js |
+| Frontend | Blade, Tailwind CSS 4, Alpine.js 3, Vite 8 |
 | Grafik | Chart.js 4 |
 | Database | MySQL (default) / SQLite |
 | Queue | Database driver |
-| Testing | PHPUnit 12 |
+| Testing | PHPUnit 13 |
 
 ---
 
@@ -91,10 +91,10 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 
 - PHP **8.3+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
 - Composer 2.
-- Node.js 18+ dan npm (untuk build asset).
+- Node.js 22+ dan npm (untuk build asset).
 - Tidak wajib Redis — queue, cache, dan session memakai database.
 
-> Catatan: proyek ini dikembangkan dengan PHP 8.5 dan Laravel 13.43.
+> Catatan: proyek ini dikembangkan dengan PHP 8.5 (lokal) / PHP 8.6 (Docker produksi) dan Laravel 13.43.
 
 ---
 
@@ -158,16 +158,12 @@ Perintah di atas membuat role, akun demo, 14 produk, 8 pelanggan, serta riwayat 
 npm run build
 ```
 
-Jika folder proyek mengandung karakter `&` (seperti folder ini) dan `npm run build` gagal di PowerShell, jalankan Vite langsung:
-
-```bash
-node node_modules/vite/bin/vite.js build
-```
+Skrip ini memanggil Vite melalui Node, sehingga tetap aman walaupun path proyek mengandung spasi atau `&`.
 
 Untuk pengembangan:
 
 ```bash
-node node_modules/vite/bin/vite.js
+npm run dev
 ```
 
 ### 6. Jalankan aplikasi
@@ -341,9 +337,6 @@ vendor/bin/pint
 ---
 
 ## Troubleshooting
-
-**`npm run build` gagal karena path mengandung `&`**  
-Gunakan pemanggilan Vite langsung seperti di atas, atau pindahkan proyek ke path tanpa `&`.
 
 **Logo bisnis tidak muncul**  
 Jalankan `php artisan storage:link` dan pastikan `APP_URL` sesuai.

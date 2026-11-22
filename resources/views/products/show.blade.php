@@ -70,7 +70,7 @@
                     {{-- Mobile cards --}}
                     <div class="space-y-3 p-4 md:hidden">
                         @foreach ($stockLogs as $log)
-                            <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="min-w-0">
                                         <p class="text-xs font-semibold text-slate-700">{{ id_date($log->created_at) }} · {{ $log->created_at->format('H:i') }}</p>

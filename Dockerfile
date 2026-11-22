@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # ---------------------------------------------------------------------------
-# Base image: FrankenPHP (PHP 8.4 + Caddy) on Debian
+# Base image: FrankenPHP (PHP 8.6 + Caddy) on Debian
 # ---------------------------------------------------------------------------
-FROM dunglas/frankenphp:1-php8.4-bookworm AS base
+FROM dunglas/frankenphp:1-php8.6-bookworm AS base
 
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && install-php-extensions intl zip gd pdo_mysql pdo_pgsql
@@ -13,7 +13,7 @@ WORKDIR /app
 # ---------------------------------------------------------------------------
 # Front-end assets (Vite + Tailwind)
 # ---------------------------------------------------------------------------
-FROM node:22-bookworm-slim AS assets
+FROM node:26-bookworm-slim AS assets
 
 WORKDIR /app
 

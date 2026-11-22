@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
 @layer base {
     :root {
@@ -155,6 +159,14 @@
     }
 }
 
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:translate-y-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50;
+}
+
+@utility badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold;
+}
+
 @layer components {
     /* ------------------------------------------------------------------
        Liquid glass surfaces
@@ -185,10 +197,6 @@
     /* ------------------------------------------------------------------
        Buttons — pill shaped, with a soft inner highlight
        ------------------------------------------------------------------ */
-    .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:translate-y-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50;
-    }
-
     .btn-primary {
         @apply btn relative overflow-hidden bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-[0_10px_24px_-10px_rgba(79,70,229,0.85),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 hover:shadow-[0_14px_30px_-10px_rgba(79,70,229,0.9)];
     }
@@ -260,10 +268,6 @@
     /* ------------------------------------------------------------------
        Badges — translucent tinted glass
        ------------------------------------------------------------------ */
-    .badge {
-        @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold;
-    }
-
     .badge-success {
         @apply badge bg-emerald-500/10 text-emerald-700 ring-1 ring-inset ring-emerald-500/25;
     }

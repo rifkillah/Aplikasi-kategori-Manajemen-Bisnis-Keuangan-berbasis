@@ -38,7 +38,7 @@
                         <label class="relative cursor-pointer">
                             <input type="radio" name="theme_mode" value="{{ $value }}" class="peer sr-only"
                                    x-model="mode" @change="setMode('{{ $value }}')">
-                            <div class="flex h-full flex-col gap-3 rounded-2xl border border-white/70 bg-white/50 p-4 shadow-sm backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:bg-indigo-50/70 peer-checked:shadow-[0_16px_40px_-24px_rgba(79,70,229,0.6)]">
+                            <div class="flex h-full flex-col gap-3 rounded-2xl border border-white/70 bg-white/50 p-4 shadow-xs backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:bg-indigo-50/70 peer-checked:shadow-[0_16px_40px_-24px_rgba(79,70,229,0.6)]">
                                 <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 ring-1 ring-inset ring-indigo-500/20">
                                     <x-icon :name="$value === 'system' ? 'monitor' : ($value === 'light' ? 'sun' : 'moon')" class="h-5 w-5" />
                                 </span>
@@ -72,7 +72,7 @@
                         <label class="relative cursor-pointer">
                             <input type="radio" name="background_preset" value="{{ $key }}" class="peer sr-only"
                                    x-model="preset" @change="setPreset('{{ $key }}')">
-                            <div class="h-full rounded-2xl border border-white/70 bg-white/50 p-2.5 shadow-sm backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:ring-2 peer-checked:ring-indigo-400/40">
+                            <div class="h-full rounded-2xl border border-white/70 bg-white/50 p-2.5 shadow-xs backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:ring-2 peer-checked:ring-indigo-400/40">
                                 <div class="h-16 w-full rounded-xl ring-1 ring-inset ring-white/40" style="background-image: {{ $preset['swatch'] }}"></div>
                                 <p class="mt-2 text-xs font-semibold text-slate-900">{{ $preset['label'] }}</p>
                                 <p class="mt-0.5 text-[10px] leading-snug text-slate-500">{{ $preset['description'] }}</p>
@@ -84,7 +84,7 @@
                     <label class="relative cursor-pointer" x-show="preview" x-cloak>
                         <input type="radio" name="background_preset" value="custom" class="peer sr-only"
                                x-model="preset" @change="setPreset('custom')">
-                        <div class="h-full rounded-2xl border border-white/70 bg-white/50 p-2.5 shadow-sm backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:ring-2 peer-checked:ring-indigo-400/40">
+                        <div class="h-full rounded-2xl border border-white/70 bg-white/50 p-2.5 shadow-xs backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-white/80 peer-checked:border-indigo-400 peer-checked:ring-2 peer-checked:ring-indigo-400/40">
                             <div class="h-16 w-full overflow-hidden rounded-xl ring-1 ring-inset ring-white/40">
                                 <img :src="preview" alt="Wallpaper kustom" class="h-full w-full object-cover">
                             </div>
@@ -195,7 +195,7 @@
                             <span class="rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold text-slate-700 backdrop-blur">Kasirin</span>
                             <span class="rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold text-slate-700 backdrop-blur" x-text="modeLabel"></span>
                         </div>
-                        <div class="app-glass rounded-xl border border-white/80 bg-white/75 p-3 shadow-sm">
+                        <div class="app-glass rounded-xl border border-white/80 bg-white/75 p-3 shadow-xs">
                             <p class="text-[10px] font-medium text-slate-500">Penjualan hari ini</p>
                             <p class="mt-0.5 text-lg font-extrabold text-slate-900">Rp 2.470.860</p>
                         </div>

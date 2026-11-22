@@ -26,7 +26,7 @@
                     {{-- Mobile cards --}}
                     <div class="space-y-3 p-4 md:hidden">
                         @foreach ($transactions as $transaction)
-                            <a href="{{ route('transactions.show', $transaction) }}" class="block rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <a href="{{ route('transactions.show', $transaction) }}" class="block rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="min-w-0">
                                         <p class="truncate text-sm font-bold text-indigo-600">{{ $transaction->invoice_number }}</p>

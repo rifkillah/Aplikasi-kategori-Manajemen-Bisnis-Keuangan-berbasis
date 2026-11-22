@@ -8,7 +8,7 @@
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-500/20 backdrop-blur">
                 <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Sesi kasir aktif
             </span>
-            <span class="rounded-full border border-white/70 bg-white/60 px-3 py-1.5 font-medium text-slate-600 shadow-sm backdrop-blur">{{ now()->translatedFormat('d M Y') }}</span>
+            <span class="rounded-full border border-white/70 bg-white/60 px-3 py-1.5 font-medium text-slate-600 shadow-xs backdrop-blur">{{ now()->translatedFormat('d M Y') }}</span>
         </div>
     </div>
 
@@ -94,11 +94,11 @@
 
         {{-- Mobile cart backdrop --}}
         <div x-show="cartOpen" x-cloak x-transition.opacity @click="cartOpen = false"
-             class="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-sm lg:hidden"></div>
+             class="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-xs lg:hidden"></div>
 
         {{-- Cart --}}
         <div class="card hidden min-w-0 transition-all duration-300 lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100dvh-12rem)] lg:flex-col lg:overflow-hidden"
-             :class="cartOpen ? 'fixed inset-x-0 bottom-0 z-50 !block max-h-[88vh] overflow-y-auto rounded-b-none shadow-2xl lg:sticky lg:rounded-[28px] lg:shadow-sm' : ''">
+             :class="cartOpen ? 'fixed inset-x-0 bottom-0 z-50 !block max-h-[88vh] overflow-y-auto rounded-b-none shadow-2xl lg:sticky lg:rounded-[28px] lg:shadow-xs' : ''">
             <div class="flex shrink-0 items-center justify-between border-b border-slate-900/[0.06] p-4 sm:p-5">
                 <div class="flex items-center gap-2.5">
                     <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 ring-1 ring-inset ring-indigo-500/15">
@@ -144,7 +144,7 @@
                                     </button>
                                 </div>
                                 <div class="mt-2.5 flex items-center justify-between">
-                                    <div class="flex items-center rounded-full border border-white/80 bg-white/70 shadow-sm">
+                                    <div class="flex items-center rounded-full border border-white/80 bg-white/70 shadow-xs">
                                         <button type="button" @click="decrease(index)" class="rounded-full px-2.5 py-1.5 text-slate-500 transition hover:text-indigo-600">
                                             <x-icon name="minus" class="h-3 w-3" />
                                         </button>

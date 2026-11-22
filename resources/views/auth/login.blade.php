@@ -68,7 +68,7 @@
         </div>
 
         <label for="remember_me" class="flex items-center gap-2.5 text-sm text-slate-600">
-            <input id="remember_me" type="checkbox" name="remember" class="rounded border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+            <input id="remember_me" type="checkbox" name="remember" class="rounded border-slate-300 text-indigo-600 shadow-xs focus:ring-indigo-500">
             Ingat saya di perangkat ini
         </label>
 

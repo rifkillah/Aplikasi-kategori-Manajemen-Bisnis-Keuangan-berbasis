@@ -95,7 +95,7 @@
 
         {{-- Mobile backdrop --}}
         <div x-show="sidebarOpen" x-cloak x-transition.opacity @click="sidebarOpen = false"
-             class="fixed inset-0 z-40 bg-slate-950/55 backdrop-blur-sm lg:hidden"></div>
+             class="fixed inset-0 z-40 bg-slate-950/55 backdrop-blur-xs lg:hidden"></div>
 
         {{-- Mobile bottom-sheet menu --}}
         <div x-show="sidebarOpen" x-cloak
@@ -128,17 +128,17 @@
             <div x-data="themeToggle(@js($themeMode))" data-theme-url="{{ route('appearance.theme') }}"
                  class="mx-4 mb-1 flex shrink-0 gap-1 rounded-2xl border border-white/10 bg-white/[0.05] p-1">
                 <button type="button" @click="set('system')"
-                        :class="mode === 'system' ? 'bg-white/15 text-white shadow-sm' : 'text-slate-400'"
+                        :class="mode === 'system' ? 'bg-white/15 text-white shadow-xs' : 'text-slate-400'"
                         class="flex min-h-[42px] flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-[11px] font-semibold transition active:scale-95">
                     <x-icon name="monitor" class="h-4 w-4" /> Sistem
                 </button>
                 <button type="button" @click="set('light')"
-                        :class="mode === 'light' ? 'bg-white/15 text-white shadow-sm' : 'text-slate-400'"
+                        :class="mode === 'light' ? 'bg-white/15 text-white shadow-xs' : 'text-slate-400'"
                         class="flex min-h-[42px] flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-[11px] font-semibold transition active:scale-95">
                     <x-icon name="sun" class="h-4 w-4" /> Terang
                 </button>
                 <button type="button" @click="set('dark')"
-                        :class="mode === 'dark' ? 'bg-white/15 text-white shadow-sm' : 'text-slate-400'"
+                        :class="mode === 'dark' ? 'bg-white/15 text-white shadow-xs' : 'text-slate-400'"
                         class="flex min-h-[42px] flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-[11px] font-semibold transition active:scale-95">
                     <x-icon name="moon" class="h-4 w-4" /> Gelap
                 </button>
@@ -194,7 +194,7 @@
 
                         <div class="relative" @click.outside="profileOpen = false">
                             <button @click="profileOpen = !profileOpen"
-                                    class="flex min-h-11 touch-manipulation items-center gap-2 rounded-full border border-white/80 bg-white/65 p-1 pr-2.5 shadow-sm transition hover:bg-white/85 active:scale-[0.97]">
+                                    class="flex min-h-11 touch-manipulation items-center gap-2 rounded-full border border-white/80 bg-white/65 p-1 pr-2.5 shadow-xs transition hover:bg-white/85 active:scale-[0.97]">
                                 <x-user-avatar :user="$user" size="h-8 w-8" text="text-[11px]"
                                                class="shadow-md shadow-indigo-600/30" />
                                 <span class="hidden text-left sm:block">

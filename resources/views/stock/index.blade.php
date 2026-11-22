@@ -60,7 +60,7 @@
             {{-- Mobile cards --}}
             <div class="space-y-3 p-4 md:hidden">
                 @foreach ($logs as $log)
-                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
                                 <p class="truncate text-sm font-bold text-slate-800">{{ $log->product?->name ?? 'Produk dihapus' }}</p>

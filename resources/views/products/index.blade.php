@@ -59,7 +59,7 @@
             {{-- Mobile cards --}}
             <div class="space-y-3 p-4 md:hidden">
                 @foreach ($products as $product)
-                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
                         <div class="flex items-start gap-3">
                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
                                 <x-icon name="cube" class="h-5 w-5" />
