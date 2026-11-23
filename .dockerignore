@@ -19,4 +19,5 @@ storage/framework/views/*
 storage/logs/*
 bootstrap/cache/*
 .DS_Store
+.snapgent
 Thumbs.db

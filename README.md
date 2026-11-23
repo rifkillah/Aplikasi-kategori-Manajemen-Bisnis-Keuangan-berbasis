@@ -75,7 +75,7 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 
 | Komponen | Teknologi |
 |---|---|
-| Backend | Laravel 13, PHP ≥ 8.3 |
+| Backend | Laravel 13, PHP ≥ 8.6 |
 | Autentikasi | Laravel Breeze (Blade) |
 | Hak akses | spatie/laravel-permission 8 |
 | PDF | barryvdh/laravel-dompdf 3 |
@@ -84,17 +84,18 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 | Database | MySQL (default) / SQLite |
 | Queue | Database driver |
 | Testing | PHPUnit 13 |
+| Container | FrankenPHP 1.14 (PHP 8.6), Node.js 26 |
 
 ---
 
 ## Kebutuhan Sistem
 
-- PHP **8.3+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
+- PHP **8.6+** dengan ekstensi `pdo_mysql` (default) atau `pdo_sqlite`, `mbstring`, `openssl`, `dom`, `fileinfo`.
 - Composer 2.
-- Node.js 22+ dan npm (untuk build asset).
+- Node.js 26+ dan npm (untuk build asset).
 - Tidak wajib Redis — queue, cache, dan session memakai database.
 
-> Catatan: proyek ini dikembangkan dengan PHP 8.5 (lokal) / PHP 8.6 (Docker produksi) dan Laravel 13.43.
+> Catatan: proyek ini dikembangkan dan diuji dengan PHP 8.6.0 serta Laravel 13.43, dan image Docker produksi juga memakai PHP 8.6.
 
 ---
 
@@ -351,7 +352,7 @@ Pastikan worker berjalan (`php artisan queue:work --queue=notifications,default`
 Itu sesuai role. Login sebagai owner untuk mengakses keuangan, laporan, tim, dan pengaturan.
 
 **PHP mengeluarkan peringatan `session.sid_length`**  
-Peringatan startup dari konfigurasi PHP 8.5 bersifat non-fatal dan tidak memengaruhi aplikasi.
+PHP 8.6 menandai directive tersebut sebagai deprecated. Komentari atau hapus baris `session.sid_length` dan `session.sid_bits_per_character` di `php.ini`, lalu restart PHP/Apache.
 
 ---
 

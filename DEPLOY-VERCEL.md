@@ -73,7 +73,7 @@ Jalankan dari komputer lokal, langsung ke database eksternal. PHP Laragon sudah 
 $env:DB_CONNECTION = 'pgsql'
 $env:DB_URL = 'postgresql://USER:PASSWORD@HOST/DBNAME?sslmode=require'
 
-C:\laragon\bin\php\php-8.5.12-1-Win32-vs17-x64_2\php.exe `
+C:\laragon\bin\php\php-8.6.0-Win32-vs18-x64\php.exe `
   -d extension=pdo_pgsql artisan migrate --force --seed
 ```
 
@@ -87,7 +87,7 @@ $env:DB_DATABASE = '...'
 $env:DB_USERNAME = '...'
 $env:DB_PASSWORD = '...'
 
-C:\laragon\bin\php\php-8.5.12-1-Win32-vs17-x64_2\php.exe artisan migrate --force --seed
+C:\laragon\bin\php\php-8.6.0-Win32-vs18-x64\php.exe artisan migrate --force --seed
 ```
 
 `--seed` akan membuat 3 akun demo, 14 produk, dan riwayat transaksi.
