@@ -189,7 +189,7 @@
                 <h3 class="text-sm font-bold text-rose-900">Hapus produk</h3>
                 <p class="mt-1 text-xs text-rose-700">Produk akan dihapus dari katalog. Riwayat transaksi tetap tersimpan.</p>
                 <form method="POST" action="{{ route('products.destroy', $product) }}" class="mt-3"
-                      onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                      data-confirm="Yakin ingin menghapus produk ini?">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-danger btn-sm w-full">

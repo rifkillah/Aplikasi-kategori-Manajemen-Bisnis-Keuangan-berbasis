@@ -20,7 +20,7 @@ class NotificationController extends Controller
         $notification = $request->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
 
-        return redirect($notification->data['url'] ?? route('notifications.index'));
+        return redirect()->to($this->safeRedirectUrl($request, $notification->data['url'] ?? null));
     }
 
     public function readAll(Request $request): RedirectResponse
@@ -28,5 +28,40 @@ class NotificationController extends Controller
         $request->user()->unreadNotifications->markAsRead();
 
         return back()->with('success', 'Semua notifikasi ditandai sudah dibaca.');
+    }
+
+    /**
+     * Only allow destinations on this application. Notification payloads are
+     * stored in the database, so treating their URL as trusted would turn a
+     * future data-writing bug into an open redirect.
+     */
+    private function safeRedirectUrl(Request $request, mixed $url): string
+    {
+        $fallback = route('notifications.index');
+
+        if (! is_string($url) || $url === '') {
+            return $fallback;
+        }
+
+        // Protocol-relative URLs ("//evil.test") are not local paths.
+        if (str_starts_with($url, '/') && ! str_starts_with($url, '//')) {
+            return $url;
+        }
+
+        $parts = parse_url($url);
+
+        if ($parts === false || ! isset($parts['host'])) {
+            return $fallback;
+        }
+
+        $scheme = strtolower($parts['scheme'] ?? 'https');
+
+        if (! in_array($scheme, ['http', 'https'], true) || strcasecmp($parts['host'], $request->getHost()) !== 0) {
+            return $fallback;
+        }
+
+        $path = $parts['path'] ?? '/';
+
+        return $path.(isset($parts['query']) ? '?'.$parts['query'] : '');
     }
 }

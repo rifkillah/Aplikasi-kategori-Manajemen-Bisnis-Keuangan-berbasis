@@ -81,7 +81,7 @@
                         </div>
 
                         <form method="POST" action="{{ route('finance.destroy', $transaction) }}" class="mt-3 border-t border-slate-100 pt-2"
-                              onsubmit="return confirm('Hapus catatan {{ $transaction->type_label }} ini? Tindakan ini tidak dapat dibatalkan.');">
+                              data-confirm="Hapus catatan {{ $transaction->type_label }} ini? Tindakan ini tidak dapat dibatalkan.">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-ghost btn-sm w-full text-rose-600 hover:bg-rose-50">
@@ -127,7 +127,7 @@
                                 <td>
                                     <div class="flex justify-end">
                                         <form method="POST" action="{{ route('finance.destroy', $transaction) }}"
-                                              onsubmit="return confirm('Hapus catatan {{ $transaction->type_label }} ini? Tindakan ini tidak dapat dibatalkan.');">
+                                              data-confirm="Hapus catatan {{ $transaction->type_label }} ini? Tindakan ini tidak dapat dibatalkan.">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" title="Hapus catatan"

@@ -20,10 +20,12 @@ class LowStockNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
+        $name = str_replace(["\r", "\n"], ' ', $this->product->name);
+
         return (new MailMessage)
-            ->subject('⚠️ Stok Menipis: '.$this->product->name)
+            ->subject('⚠️ Stok Menipis: '.$name)
             ->greeting('Halo '.$notifiable->name.',')
-            ->line("Stok produk **{$this->product->name}** ({$this->product->sku}) sudah menipis.")
+            ->line("Stok produk **{$name}** ({$this->product->sku}) sudah menipis.")
             ->line("Stok saat ini: **{$this->product->stock} {$this->product->unit}** — batas minimum: {$this->product->min_stock_alert} {$this->product->unit}.")
             ->action('Buka Inventaris', route('products.show', $this->product))
             ->line('Segera lakukan restock agar penjualan tidak terhambat.');
@@ -38,7 +40,7 @@ class LowStockNotification extends Notification
             'stock' => $this->product->stock,
             'min_stock_alert' => $this->product->min_stock_alert,
             'message' => "Stok {$this->product->name} tinggal {$this->product->stock} {$this->product->unit}.",
-            'url' => route('products.show', $this->product),
+            'url' => route('products.show', $this->product, absolute: false),
         ];
     }
 }

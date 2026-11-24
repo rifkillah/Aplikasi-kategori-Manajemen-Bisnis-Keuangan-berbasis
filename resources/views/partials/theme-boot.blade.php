@@ -1,4 +1,4 @@
-<script>
+<script nonce="{{ $cspNonce }}">
     (function () {
         var mode = @json($mode ?? 'system');
         var dark = mode === 'dark'

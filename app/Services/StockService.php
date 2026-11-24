@@ -23,32 +23,39 @@ class StockService
             throw ValidationException::withMessages(['type' => 'Jenis pergerakan stok tidak valid.']);
         }
 
-        $delta = match ($type) {
-            'in' => abs($quantity),
-            'out' => -abs($quantity),
-            'adjustment' => $quantity - $product->stock,
-        };
+        $log = DB::transaction(function () use ($product, $user, $type, $quantity, $notes) {
+            // Re-read under the row lock so two concurrent movements cannot both
+            // pass the stock check against a stale value and drive it negative.
+            $locked = Product::query()
+                ->where('tenant_id', $product->tenant_id)
+                ->whereKey($product->id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        if ($type === 'out' && $product->stock < abs($quantity)) {
-            throw ValidationException::withMessages([
-                'quantity' => "Stok {$product->name} hanya tersisa {$product->stock} {$product->unit}.",
-            ]);
-        }
+            if ($type === 'out' && $locked->stock < abs($quantity)) {
+                throw ValidationException::withMessages([
+                    'quantity' => "Stok {$locked->name} hanya tersisa {$locked->stock} {$locked->unit}.",
+                ]);
+            }
 
-        if ($type === 'adjustment' && $quantity < 0) {
-            throw ValidationException::withMessages(['quantity' => 'Stok fisik tidak boleh negatif.']);
-        }
+            if ($type === 'adjustment' && $quantity < 0) {
+                throw ValidationException::withMessages(['quantity' => 'Stok fisik tidak boleh negatif.']);
+            }
 
-        $log = DB::transaction(function () use ($product, $user, $type, $delta, $notes) {
-            $product = Product::whereKey($product->id)->lockForUpdate()->firstOrFail();
-            $before = $product->stock;
+            $delta = match ($type) {
+                'in' => abs($quantity),
+                'out' => -abs($quantity),
+                'adjustment' => $quantity - $locked->stock,
+            };
+
+            $before = $locked->stock;
             $after = $before + $delta;
 
-            $product->update(['stock' => $after]);
+            $locked->update(['stock' => $after]);
 
             return StockLog::create([
-                'tenant_id' => $product->tenant_id,
-                'product_id' => $product->id,
+                'tenant_id' => $locked->tenant_id,
+                'product_id' => $locked->id,
                 'user_id' => $user->id,
                 'type' => $type,
                 'qty' => $delta,

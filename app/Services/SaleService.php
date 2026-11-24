@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Jobs\SendLowStockNotificationJob;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\StockLog;
 use App\Models\Tenant;
@@ -34,7 +35,15 @@ class SaleService
                 throw ValidationException::withMessages(['items' => 'Keranjang belanja masih kosong.']);
             }
 
+            if (! empty($data['customer_id']) && ! Customer::query()
+                ->where('tenant_id', $user->tenant_id)
+                ->whereKey($data['customer_id'])
+                ->exists()) {
+                throw ValidationException::withMessages(['customer_id' => 'Pelanggan tidak ditemukan pada bisnis Anda.']);
+            }
+
             $products = Product::query()
+                ->where('tenant_id', $user->tenant_id)
                 ->whereIn('id', $items->pluck('product_id')->unique())
                 ->lockForUpdate()
                 ->get()
@@ -152,6 +161,10 @@ class SaleService
 
     public function void(Transaction $transaction, User $user): void
     {
+        if ($transaction->tenant_id !== $user->tenant_id) {
+            throw ValidationException::withMessages(['transaction' => 'Transaksi ini bukan milik bisnis Anda.']);
+        }
+
         if ($transaction->type !== Transaction::TYPE_SALE || $transaction->is_void) {
             throw ValidationException::withMessages(['transaction' => 'Transaksi ini tidak dapat dibatalkan.']);
         }
@@ -160,7 +173,11 @@ class SaleService
             $transaction->load('details');
 
             foreach ($transaction->details as $detail) {
-                $product = Product::withTrashed()->whereKey($detail->product_id)->lockForUpdate()->first();
+                $product = Product::withTrashed()
+                    ->where('tenant_id', $transaction->tenant_id)
+                    ->whereKey($detail->product_id)
+                    ->lockForUpdate()
+                    ->first();
 
                 if (! $product) {
                     continue;

@@ -133,7 +133,7 @@
     </form>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             function settingsForm(initialLogo) {
                 return {
                     preview: initialLogo,

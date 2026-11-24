@@ -3,7 +3,8 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="space-y-5">
+    <form method="post" action="{{ route('profile.update') }}" class="space-y-5"
+          x-data="{ email: @js(old('email', $user->email)), originalEmail: @js($user->email) }">
         @csrf
         @method('patch')
 
@@ -17,7 +18,7 @@
         <div>
             <label for="email" class="label">Email <span class="text-rose-500">*</span></label>
             <input id="email" name="email" type="email" class="input" value="{{ old('email', $user->email) }}"
-                   required autocomplete="username">
+                   required autocomplete="username" x-model="email">
             <x-input-error class="mt-1.5" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -36,6 +37,14 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div x-show="email.trim().toLowerCase() !== originalEmail.trim().toLowerCase()" x-cloak>
+            <label for="current_password" class="label">Kata sandi saat ini <span class="text-rose-500">*</span></label>
+            <input id="current_password" name="current_password" type="password" class="input"
+                   autocomplete="current-password">
+            <p class="mt-1 text-xs text-slate-500">Wajib diisi karena Anda mengganti alamat email.</p>
+            <x-input-error class="mt-1.5" :messages="$errors->get('current_password')" />
         </div>
 
         <div class="flex items-center gap-3">

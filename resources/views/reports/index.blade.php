@@ -170,7 +170,7 @@
 
     @push('scripts')
         @if ($daily->isNotEmpty())
-            <script>
+            <script nonce="{{ $cspNonce }}">
                 document.addEventListener('DOMContentLoaded', function () {
                     const canvas = document.getElementById('reportChart');
                     if (!canvas || typeof Chart === 'undefined') return;

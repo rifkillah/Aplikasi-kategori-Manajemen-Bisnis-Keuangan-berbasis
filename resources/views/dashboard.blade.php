@@ -26,7 +26,11 @@
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <x-stat-card label="Penjualan hari ini" :value="rupiah($salesToday)" icon="banknotes" tone="indigo" :hint="$transactionsToday.' transaksi selesai'" />
             <x-stat-card label="Omzet bulan ini" :value="rupiah($monthRevenue)" icon="trending-up" tone="sky" hint="Penjualan berstatus selesai" />
-            <x-stat-card label="Laba bersih bulan ini" :value="rupiah($monthProfit)" icon="wallet" :tone="$monthProfit >= 0 ? 'emerald' : 'rose'" hint="Setelah HPP, beban & pemasukan lain" />
+            @if ($user->isOwner())
+                <x-stat-card label="Laba bersih bulan ini" :value="rupiah($monthProfit)" icon="wallet" :tone="$monthProfit >= 0 ? 'emerald' : 'rose'" hint="Setelah HPP, beban & pemasukan lain" />
+            @else
+                <x-stat-card label="Transaksi hari ini" :value="$transactionsToday.' transaksi'" icon="receipt" tone="sky" hint="Transaksi kasir selesai" />
+            @endif
             <x-stat-card label="Stok menipis" :value="$lowStockCount.' produk'" icon="alert" :tone="$lowStockCount > 0 ? 'amber' : 'slate'" :hint="$totalProducts.' produk aktif'" />
         </div>
     @else
@@ -38,28 +42,30 @@
         </div>
     @endif
 
-    <div class="mt-6 grid gap-6 xl:grid-cols-3">
-        {{-- Chart --}}
-        <div class="card card-hover xl:col-span-2" data-reveal>
-            <div class="flex flex-col gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-                <div>
-                    <h2 class="section-title">Arus kas 6 bulan terakhir</h2>
-                    <p class="muted mt-0.5">Perbandingan pemasukan dan pengeluaran</p>
+    <div class="mt-6 grid gap-6 {{ $user->isOwner() ? 'xl:grid-cols-3' : '' }}">
+        {{-- Cash flow is owner-only financial data --}}
+        @if ($user->isOwner())
+            <div class="card card-hover xl:col-span-2" data-reveal>
+                <div class="flex flex-col gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                    <div>
+                        <h2 class="section-title">Arus kas 6 bulan terakhir</h2>
+                        <p class="muted mt-0.5">Perbandingan pemasukan dan pengeluaran</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
+                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-indigo-500"></span> Pemasukan</span>
+                        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-rose-400"></span> Pengeluaran</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
-                    <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-indigo-500"></span> Pemasukan</span>
-                    <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-rose-400"></span> Pengeluaran</span>
+                <div class="p-5 sm:p-6">
+                    <div class="h-[290px]">
+                        <canvas id="cashflowChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="p-5 sm:p-6">
-                <div class="h-[290px]">
-                    <canvas id="cashflowChart"></canvas>
-                </div>
-            </div>
-        </div>
+        @endif
 
         {{-- Top products --}}
-        <div class="card card-hover" data-reveal>
+        <div class="card card-hover {{ $user->isOwner() ? '' : 'xl:col-span-3' }}" data-reveal>
             <div class="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
                 <div>
                     <h2 class="section-title">Produk terlaris</h2>
@@ -220,7 +226,7 @@
     </div>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             document.addEventListener('DOMContentLoaded', function () {
                 const canvas = document.getElementById('cashflowChart');
                 if (!canvas || typeof Chart === 'undefined') return;

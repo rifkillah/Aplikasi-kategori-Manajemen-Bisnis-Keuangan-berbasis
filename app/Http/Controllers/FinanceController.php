@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tenant;
 use App\Models\Transaction;
 use App\Services\InvoiceNumberService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class FinanceController extends Controller
@@ -56,27 +58,30 @@ class FinanceController extends Controller
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        $tenant = $request->user()->tenant;
         $date = Carbon::parse($validated['transaction_date']);
         $prefix = $validated['type'] === 'income' ? 'INC' : 'EXP';
 
-        $transaction = Transaction::create([
-            'tenant_id' => $tenant->id,
-            'user_id' => $request->user()->id,
-            'invoice_number' => $invoiceNumbers->next($tenant, $prefix, $date),
-            'type' => $validated['type'],
-            'description' => $validated['description'],
-            'subtotal' => $validated['amount'],
-            'discount' => 0,
-            'tax' => 0,
-            'total_amount' => $validated['amount'],
-            'paid_amount' => $validated['amount'],
-            'payment_status' => 'paid',
-            'payment_method' => $validated['payment_method'],
-            'status' => 'completed',
-            'transaction_date' => $date->copy()->setTimeFrom(now()),
-            'notes' => $validated['notes'] ?? null,
-        ]);
+        $transaction = DB::transaction(function () use ($request, $validated, $date, $prefix, $invoiceNumbers) {
+            $tenant = Tenant::query()->whereKey($request->user()->tenant_id)->firstOrFail();
+
+            return Transaction::create([
+                'tenant_id' => $tenant->id,
+                'user_id' => $request->user()->id,
+                'invoice_number' => $invoiceNumbers->next($tenant, $prefix, $date),
+                'type' => $validated['type'],
+                'description' => $validated['description'],
+                'subtotal' => $validated['amount'],
+                'discount' => 0,
+                'tax' => 0,
+                'total_amount' => $validated['amount'],
+                'paid_amount' => $validated['amount'],
+                'payment_status' => 'paid',
+                'payment_method' => $validated['payment_method'],
+                'status' => 'completed',
+                'transaction_date' => $date->copy()->setTimeFrom(now()),
+                'notes' => $validated['notes'] ?? null,
+            ]);
+        });
 
         return redirect()->route('finance.index')
             ->with('success', "Catatan {$transaction->type_label} berhasil disimpan.");

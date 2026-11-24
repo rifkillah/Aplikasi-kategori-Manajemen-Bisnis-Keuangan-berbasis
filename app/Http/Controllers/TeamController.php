@@ -31,7 +31,7 @@ class TeamController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')],
             'role' => ['required', 'in:owner,kasir,gudang'],
-            'password' => ['required', 'confirmed', Password::min(8)],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         DB::transaction(function () use ($validated, $request) {
@@ -58,7 +58,7 @@ class TeamController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->ignore($member->id)],
             'role' => ['required', 'in:owner,kasir,gudang'],
             'is_active' => ['boolean'],
-            'password' => ['nullable', 'confirmed', Password::min(8)],
+            'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
 
         if ($member->id === $request->user()->id && $validated['role'] !== 'owner') {

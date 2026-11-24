@@ -10,6 +10,11 @@ class InvoiceNumberService
 {
     public function next(Tenant $tenant, ?string $prefix = null, ?Carbon $date = null): string
     {
+        // Serialize numbering per tenant. Callers already run inside a
+        // transaction, so the lock is released when that transaction ends and
+        // two simultaneous sales can never read the same sequence.
+        Tenant::query()->whereKey($tenant->id)->lockForUpdate()->first();
+
         $date ??= now();
         $prefix = strtoupper($prefix ?: $tenant->invoice_prefix ?: 'INV');
         $sequence = Transaction::withoutGlobalScope('tenant')

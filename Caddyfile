@@ -1,8 +1,24 @@
 :{$PORT:80} {
-    root * /app/public
-    encode zstd gzip
+	root * /app/public
+	encode zstd gzip
 
-    php_server {
-        try_files {path} index.php
-    }
+	# Baseline headers for every response, including static files that never
+	# pass through PHP. The application adds CSP, HSTS and per-page cache
+	# headers on top of these.
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
+		X-Permitted-Cross-Domain-Policies "none"
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+		-X-Powered-By
+	}
+
+	php_server {
+		try_files {path} index.php
+	}
 }

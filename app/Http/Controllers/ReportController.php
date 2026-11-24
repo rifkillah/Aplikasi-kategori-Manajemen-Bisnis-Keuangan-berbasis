@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Support\CsvSanitizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -96,20 +97,23 @@ class ReportController extends Controller
             ]);
 
             foreach ($transactions as $transaction) {
-                fputcsv($handle, [
-                    $transaction->transaction_date->format('Y-m-d H:i'),
-                    $transaction->invoice_number,
-                    $transaction->type_label,
-                    $transaction->description ?? ($transaction->details->first()->product_name ?? '-'),
-                    $transaction->customer?->name ?? '-',
-                    $transaction->user?->name ?? '-',
-                    strtoupper($transaction->payment_method ?? '-'),
-                    $transaction->payment_status_label,
-                    (float) $transaction->subtotal,
-                    (float) $transaction->discount,
-                    (float) $transaction->tax,
-                    (float) $transaction->total_amount,
-                ]);
+                fputcsv($handle, array_map(
+                    [CsvSanitizer::class, 'cell'],
+                    [
+                        $transaction->transaction_date->format('Y-m-d H:i'),
+                        $transaction->invoice_number,
+                        $transaction->type_label,
+                        $transaction->description ?? ($transaction->details->first()->product_name ?? '-'),
+                        $transaction->customer?->name ?? '-',
+                        $transaction->user?->name ?? '-',
+                        strtoupper($transaction->payment_method ?? '-'),
+                        $transaction->payment_status_label,
+                        (float) $transaction->subtotal,
+                        (float) $transaction->discount,
+                        (float) $transaction->tax,
+                        (float) $transaction->total_amount,
+                    ]
+                ));
             }
 
             fclose($handle);

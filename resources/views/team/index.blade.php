@@ -58,7 +58,7 @@
                                 </button>
                                 @if ($member->id !== auth()->id())
                                     <form method="POST" action="{{ route('team.destroy', $member) }}"
-                                          onsubmit="return confirm('Hapus {{ $member->name }} dari tim? Akun akan kehilangan akses.');">
+                                          data-confirm="Hapus {{ $member->name }} dari tim? Akun akan kehilangan akses.">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600">
@@ -125,7 +125,7 @@
                                         </button>
                                         @if ($member->id !== auth()->id())
                                             <form method="POST" action="{{ route('team.destroy', $member) }}"
-                                                  onsubmit="return confirm('Hapus {{ $member->name }} dari tim? Akun akan kehilangan akses.');">
+                                                  data-confirm="Hapus {{ $member->name }} dari tim? Akun akan kehilangan akses.">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" title="Hapus anggota"
@@ -270,7 +270,7 @@
     </div>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             function teamEditor(members) {
                 return {
                     members: members,

@@ -238,7 +238,7 @@
     </form>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             function appearanceForm(config) {
                 return {
                     mode: config.mode,

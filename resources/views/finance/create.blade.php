@@ -131,7 +131,7 @@
     </form>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             function financeForm() {
                 return {
                     type: @json(old('type', $type)),

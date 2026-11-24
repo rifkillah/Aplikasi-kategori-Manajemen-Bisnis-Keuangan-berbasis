@@ -32,6 +32,7 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'current_password' => 'password',
             ]);
 
         $response
@@ -43,6 +44,39 @@ class ProfileTest extends TestCase
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
+    }
+
+    public function test_changing_email_requires_the_current_password(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->from('/profile')
+            ->patch('/profile', [
+                'name' => $user->name,
+                'email' => 'attacker@example.com',
+            ])
+            ->assertSessionHasErrorsIn('default', 'current_password')
+            ->assertRedirect('/profile');
+
+        $this->assertSame($user->email, $user->fresh()->email);
+    }
+
+    public function test_changing_email_rejects_a_wrong_current_password(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->from('/profile')
+            ->patch('/profile', [
+                'name' => $user->name,
+                'email' => 'attacker@example.com',
+                'current_password' => 'wrong-password',
+            ])
+            ->assertSessionHasErrorsIn('default', 'current_password')
+            ->assertRedirect('/profile');
+
+        $this->assertSame($user->email, $user->fresh()->email);
     }
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void

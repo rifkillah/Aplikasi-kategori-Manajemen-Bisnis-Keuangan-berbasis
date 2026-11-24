@@ -24,9 +24,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('authenticated')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/chart', [DashboardController::class, 'chartData'])->name('dashboard.chart');
+    Route::get('/dashboard/chart', [DashboardController::class, 'chartData'])
+        ->middleware('throttle:60,1')
+        ->name('dashboard.chart');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/{id}/read', [NotificationController::class, 'read'])->name('notifications.read');
@@ -35,13 +37,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
+        ->middleware('throttle:10,1')
+        ->name('profile.avatar.update');
     Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('profile.avatar.destroy');
 
     // Tampilan pribadi: mode terang/gelap dan latar belakang.
     Route::get('/appearance', [AppearanceController::class, 'edit'])->name('appearance.edit');
-    Route::patch('/appearance', [AppearanceController::class, 'update'])->name('appearance.update');
-    Route::post('/appearance/theme', [AppearanceController::class, 'theme'])->name('appearance.theme');
+    Route::patch('/appearance', [AppearanceController::class, 'update'])
+        ->middleware('throttle:10,1')
+        ->name('appearance.update');
+    Route::post('/appearance/theme', [AppearanceController::class, 'theme'])
+        ->middleware('throttle:30,1')
+        ->name('appearance.theme');
 
     // Kasir & transaksi
     Route::middleware('role:owner|kasir')->group(function () {
@@ -55,7 +63,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
-        Route::get('/transactions/{transaction}/pdf', [TransactionController::class, 'pdf'])->name('transactions.pdf');
+        Route::get('/transactions/{transaction}/pdf', [TransactionController::class, 'pdf'])
+            ->middleware('throttle:10,1')
+            ->name('transactions.pdf');
         Route::post('/transactions/{transaction}/void', [TransactionController::class, 'void'])->name('transactions.void');
 
         Route::resource('customers', CustomerController::class);
@@ -79,7 +89,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/finance/{transaction}', [FinanceController::class, 'destroy'])->name('finance.destroy');
 
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-        Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+        Route::get('/reports/export', [ReportController::class, 'export'])
+            ->middleware('throttle:10,1')
+            ->name('reports.export');
 
         Route::get('/team', [TeamController::class, 'index'])->name('team.index');
         Route::post('/team', [TeamController::class, 'store'])->name('team.store');

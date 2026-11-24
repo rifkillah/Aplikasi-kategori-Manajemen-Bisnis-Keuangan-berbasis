@@ -38,15 +38,21 @@ class DashboardController extends Controller
             ->selectRaw('COALESCE(SUM(purchase_price * quantity), 0) as total')
             ->value('total');
 
-        $monthExpenses = Transaction::where('type', Transaction::TYPE_EXPENSE)->completed()
-            ->whereBetween('transaction_date', [$monthStart.' 00:00:00', $monthEnd.' 23:59:59'])
-            ->sum('total_amount');
+        $monthExpenses = 0;
+        $monthIncome = 0;
+        $monthProfit = 0;
 
-        $monthIncome = Transaction::where('type', Transaction::TYPE_INCOME)->completed()
-            ->whereBetween('transaction_date', [$monthStart.' 00:00:00', $monthEnd.' 23:59:59'])
-            ->sum('total_amount');
+        if (auth()->user()->isOwner()) {
+            $monthExpenses = Transaction::where('type', Transaction::TYPE_EXPENSE)->completed()
+                ->whereBetween('transaction_date', [$monthStart.' 00:00:00', $monthEnd.' 23:59:59'])
+                ->sum('total_amount');
 
-        $monthProfit = (float) $monthRevenue - (float) $monthCogs + (float) $monthIncome - (float) $monthExpenses;
+            $monthIncome = Transaction::where('type', Transaction::TYPE_INCOME)->completed()
+                ->whereBetween('transaction_date', [$monthStart.' 00:00:00', $monthEnd.' 23:59:59'])
+                ->sum('total_amount');
+
+            $monthProfit = (float) $monthRevenue - (float) $monthCogs + (float) $monthIncome - (float) $monthExpenses;
+        }
 
         $lowStockProducts = Product::with('category')
             ->active()
@@ -93,6 +99,8 @@ class DashboardController extends Controller
 
     public function chartData(Request $request): JsonResponse
     {
+        abort_unless($request->user()->isOwner(), 403);
+
         $months = collect(range(5, 0))->map(function ($offset) {
             $start = now()->copy()->subMonths($offset)->startOfMonth();
             $end = $start->copy()->endOfMonth();

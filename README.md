@@ -65,9 +65,14 @@ Setiap bisnis yang mendaftar mendapatkan workspace-nya sendiri. Data antar-bisni
 ### Multi-tenant, Tim & Keamanan
 - Registrasi otomatis membuat tenant baru, 4 kategori default, dan akun owner.
 - Role-based access control: **owner**, **kasir**, **gudang** (Spatie Permission).
-- Policy transaksi, middleware role, dan rate limiting pada endpoint POS (`60 request/menit`).
+- Isolasi data antar-tenant berlapis: global scope `tenant_id` + filter eksplisit di service + regression test lintas tenant.
+- Policy transaksi, middleware role, dan rate limiting pada seluruh endpoint sensitif (login, register, POS, PDF, export, unggah gambar).
+- Header keamanan lengkap: CSP dengan nonce per request, HSTS (saat HTTPS), `nosniff`, `X-Frame-Options: DENY`, COOP/CORP, dan `no-store` untuk respons terautentikasi.
+- Kebijakan password terpusat, sesi terenkripsi, dan pemutusan sesi otomatis untuk akun yang dinonaktifkan.
 - Pengaturan bisnis: nama, alamat, telepon, email, logo, prefix invoice, dan tarif pajak.
 - Profil pengguna, ganti password, dan hapus akun.
+
+> Detail kontrol keamanan, checklist deploy, dan risiko sisa ada di [SECURITY.md](SECURITY.md).
 
 ---
 
@@ -272,13 +277,14 @@ Semua query menggunakan Eloquent/Query Builder sehingga kompatibel dengan MySQL 
 php artisan test
 ```
 
-Cakupan test saat ini (40 test):
+Cakupan test saat ini (74 test, 265 assertion):
 - Registrasi tenant baru + role owner + kategori default.
 - Isolasi data antar-tenant dan pembatasan role.
 - Pembuatan penjualan, perhitungan pajak/diskon, pengurangan stok, dan nomor invoice.
 - Void transaksi dan pengembalian stok.
 - Job notifikasi stok menipis, anti-duplikasi, dan pencatatan `stock_alerts`.
 - Autentikasi, profil, dan reset password bawaan Breeze.
+- Regresi keamanan: header & CSP nonce, IDOR lintas tenant, owner terakhir, enumerasi akun, formula injection CSV, dan pembatasan input.
 
 Database test memakai SQLite in-memory (`phpunit.xml`), sehingga tidak mengganggu data demo.
 
@@ -353,6 +359,19 @@ Itu sesuai role. Login sebagai owner untuk mengakses keuangan, laporan, tim, dan
 
 **PHP mengeluarkan peringatan `session.sid_length`**  
 PHP 8.6 menandai directive tersebut sebagai deprecated. Komentari atau hapus baris `session.sid_length` dan `session.sid_bits_per_character` di `php.ini`, lalu restart PHP/Apache.
+
+---
+
+## Keamanan & Deploy Produksi
+
+Sebelum dipublikasikan, wajib:
+- `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` memakai `https://`.
+- `SESSION_SECURE_COOKIE=true`, `SESSION_ENCRYPT=true`, `LOG_LEVEL=warning`.
+- `TRUSTED_PROXIES` diisi sesuai hosting (gunakan `*` untuk Vercel).
+- Document root mengarah ke `public/`, lalu jalankan `php artisan config:cache route:cache view:cache`.
+- Hapus atau ganti akun demo sebelum go-live.
+
+Checklist lengkap, kontrol keamanan yang diterapkan, dan **risiko sisa** ada di [SECURITY.md](SECURITY.md). Panduan hosting gratis tersedia di [DEPLOY-VERCEL.md](DEPLOY-VERCEL.md).
 
 ---
 

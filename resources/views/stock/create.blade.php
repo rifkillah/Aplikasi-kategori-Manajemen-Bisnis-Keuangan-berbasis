@@ -133,7 +133,7 @@
                 'min_stock_alert' => $product->min_stock_alert,
             ]);
         @endphp
-        <script>
+        <script nonce="{{ $cspNonce }}">
             window.STOCK_PRODUCTS = @json($stockProducts);
 
             function stockForm() {

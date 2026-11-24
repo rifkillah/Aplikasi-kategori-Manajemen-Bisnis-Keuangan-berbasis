@@ -177,7 +177,7 @@
                         <p class="text-xs font-semibold text-slate-700">Batalkan transaksi</p>
                         <p class="mt-1 text-[11px] leading-relaxed text-slate-500">Stok akan dikembalikan otomatis dan invoice ditandai batal. Tindakan ini tidak dapat dibatalkan.</p>
                         <form method="POST" action="{{ route('transactions.void', $transaction) }}" class="mt-3"
-                              onsubmit="return confirm('Batalkan transaksi {{ $transaction->invoice_number }}? Stok akan dikembalikan.')">
+                              data-confirm="Batalkan transaksi {{ $transaction->invoice_number }}? Stok akan dikembalikan.">
                             @csrf
                             <button type="submit" class="btn-danger btn-sm w-full">
                                 <x-icon name="refresh" class="h-3.5 w-3.5" /> Batalkan Transaksi

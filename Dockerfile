@@ -71,6 +71,9 @@ ENV PORT=80 \
     LOG_CHANNEL=stderr \
     CACHE_STORE=database \
     SESSION_DRIVER=database \
+    SESSION_ENCRYPT=true \
+    SESSION_HTTP_ONLY=true \
+    SESSION_SAME_SITE=lax \
     QUEUE_CONNECTION=sync
 
 USER www-data

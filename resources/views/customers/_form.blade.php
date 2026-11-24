@@ -67,7 +67,7 @@
                 <h3 class="text-sm font-bold text-rose-900">Hapus pelanggan</h3>
                 <p class="mt-1 text-xs text-rose-700">Transaksi lama tetap tersimpan tanpa nama pelanggan.</p>
                 <form method="POST" action="{{ route('customers.destroy', $customer) }}" class="mt-3"
-                      onsubmit="return confirm('Hapus pelanggan ini?')">
+                      data-confirm="Hapus pelanggan ini?">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-danger btn-sm w-full"><x-icon name="trash" class="h-3.5 w-3.5" /> Hapus Pelanggan</button>

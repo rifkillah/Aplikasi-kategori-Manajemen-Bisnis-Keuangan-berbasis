@@ -266,7 +266,7 @@
     </div>
 
     @push('scripts')
-        <script>
+        <script nonce="{{ $cspNonce }}">
             window.POS_PRODUCTS = @json($products);
             window.POS_TAX_PERCENT = {{ (float) $tenant->tax_percent }};
             window.POS_LOOKUP_URL = @json(route('pos.lookup'));

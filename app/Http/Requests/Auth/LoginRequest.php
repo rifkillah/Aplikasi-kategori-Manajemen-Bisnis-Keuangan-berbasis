@@ -28,8 +28,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -50,7 +50,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if (! Auth::user()->is_active) {
+        if (Auth::user()->is_active === false) {
             Auth::logout();
 
             throw ValidationException::withMessages([

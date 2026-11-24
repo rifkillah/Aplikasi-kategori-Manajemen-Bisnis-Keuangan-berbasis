@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // Only the two editable columns; current_password is validation-only.
+        $request->user()->fill($request->safe()->only(['name', 'email']));
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -90,6 +92,22 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Never let the last owner delete themselves and orphan the tenant.
+        if ($user->hasRole('owner') && $user->tenant_id) {
+            $otherOwners = User::query()
+                ->where('tenant_id', $user->tenant_id)
+                ->whereKeyNot($user->id)
+                ->role('owner')
+                ->count();
+
+            if ($otherOwners === 0) {
+                return Redirect::route('profile.edit')->withErrors(
+                    ['password' => 'Anda adalah satu-satunya owner. Tambahkan owner lain sebelum menghapus akun.'],
+                    'userDeletion'
+                );
+            }
+        }
 
         Auth::logout();
 

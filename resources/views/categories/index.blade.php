@@ -56,7 +56,7 @@
                                     <x-icon name="edit" class="h-4 w-4" />
                                 </button>
                                 <form method="POST" action="{{ route('categories.destroy', $category) }}"
-                                      onsubmit="return confirm('Hapus kategori {{ addslashes($category->name) }}?')">
+                                      data-confirm="Hapus kategori {{ $category->name }}?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" title="Hapus"

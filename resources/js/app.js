@@ -77,6 +77,25 @@ window.themeToggle = function (initial) {
 Alpine.start();
 
 /*
+ * Destructive actions ask for confirmation through a data attribute instead of
+ * inline onsubmit handlers, so script-src can stay nonce-based.
+ */
+document.addEventListener('submit', (event) => {
+    const form = event.target;
+
+    if (!(form instanceof HTMLFormElement)) {
+        return;
+    }
+
+    const message = form.dataset.confirm;
+
+    if (message && !window.confirm(message)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
+}, true);
+
+/*
  * Scroll reveal.
  *
  * Elements marked with [data-reveal] fade + rise into place once they enter
