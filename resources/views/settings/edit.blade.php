@@ -1,6 +1,6 @@
 <x-app-layout>
     @php
-        $logoUrl = $tenant->logo ? \Illuminate\Support\Facades\Storage::disk('public')->url($tenant->logo) : null;
+        $logoUrl = $tenant->logo_url;
     @endphp
 
     <x-page-header title="Pengaturan Bisnis" subtitle="Informasi ini tampil pada invoice, laporan, dan identitas workspace.">

@@ -2,7 +2,7 @@
 <div class="relative mx-4 mt-2 rounded-2xl border border-white/10 bg-white/[0.08] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur">
     <div class="flex items-center gap-3">
         @if ($currentTenant?->logo)
-            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($currentTenant->logo) }}"
+            <img src="{{ $currentTenant->logo_url }}"
                  alt="Logo {{ $currentTenant->business_name }}"
                  class="h-10 w-10 rounded-xl object-cover ring-1 ring-white/15">
         @else

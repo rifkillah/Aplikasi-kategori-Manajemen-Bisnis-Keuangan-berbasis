@@ -59,4 +59,9 @@ class Tenant extends Model
         return $this->users()
             ->whereHas('roles', fn ($query) => $query->where('name', 'owner'));
     }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        return public_storage_url($this->logo);
+    }
 }

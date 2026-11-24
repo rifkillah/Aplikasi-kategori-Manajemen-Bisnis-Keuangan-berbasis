@@ -11,6 +11,29 @@ if (! function_exists('rupiah')) {
     }
 }
 
+if (! function_exists('public_storage_url')) {
+    /**
+     * Host-agnostic URL for a file on the public disk.
+     *
+     * Returns a path relative to the current origin so the browser always
+     * requests the file from the same host that served the page. Absolute URLs
+     * pinned to APP_URL break (and are blocked by CSP img-src 'self') when the
+     * app is opened through 127.0.0.1, a LAN IP, www/non-www, or a temporary
+     * domain.
+     */
+    function public_storage_url(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        $relative = '/storage/'.ltrim($path, '/');
+        $parts = parse_url(asset($relative));
+
+        return $parts['path'] ?? $relative;
+    }
+}
+
 if (! function_exists('role_label')) {
     function role_label(?string $role): string
     {

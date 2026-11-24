@@ -152,6 +152,25 @@ class ProfileTest extends TestCase
         $this->assertNotNull($user->avatar_url);
     }
 
+    public function test_uploaded_file_urls_follow_the_current_request_host(): void
+    {
+        $user = User::factory()->create([
+            'avatar' => 'avatars/photo.jpg',
+            'background_image' => 'wallpapers/background.jpg',
+            'background_preset' => 'custom',
+        ]);
+
+        // Regression: URLs used to be pinned to APP_URL, so opening the app on
+        // another host (127.0.0.1, LAN IP, custom domain) made the browser
+        // request images from the wrong origin and CSP blocked them.
+        $response = $this->actingAs($user)->get('http://127.0.0.1:8000/profile');
+
+        $response->assertOk();
+        $response->assertSee('src="/storage/avatars/photo.jpg"', false);
+        $response->assertSee('/storage/wallpapers/background.jpg', false);
+        $response->assertDontSee('http://localhost/storage/avatars/photo.jpg', false);
+    }
+
     public function test_uploading_a_new_photo_replaces_the_previous_one(): void
     {
         Storage::fake('public');

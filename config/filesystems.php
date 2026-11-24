@@ -41,7 +41,9 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // URL relatif agar gambar tetap same-origin di host mana pun
+            // (localhost, IP LAN, domain produksi) dan tidak diblokir CSP.
+            'url' => '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

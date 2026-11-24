@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -80,9 +79,12 @@ class User extends Authenticatable
 
     public function getAvatarUrlAttribute(): ?string
     {
-        return $this->avatar
-            ? Storage::disk('public')->url($this->avatar)
-            : null;
+        return public_storage_url($this->avatar);
+    }
+
+    public function getWallpaperUrlAttribute(): ?string
+    {
+        return public_storage_url($this->background_image);
     }
 
     public function getRoleLabelAttribute(): string

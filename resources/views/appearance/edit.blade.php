@@ -1,7 +1,5 @@
 @php
-    $wallpaperUrl = $user->background_image
-        ? \Illuminate\Support\Facades\Storage::disk('public')->url($user->background_image)
-        : null;
+    $wallpaperUrl = $user->wallpaper_url;
 @endphp
 
 <x-app-layout>

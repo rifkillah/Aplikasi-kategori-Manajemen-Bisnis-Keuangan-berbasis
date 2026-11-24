@@ -32,9 +32,7 @@
     $bgPreset = $user->background_preset === 'custom' && $user->background_image
         ? 'custom'
         : (array_key_exists($user->background_preset ?? '', config('appearance.presets')) ? $user->background_preset : 'aurora');
-    $wallpaperUrl = $user->background_image
-        ? \Illuminate\Support\Facades\Storage::disk('public')->url($user->background_image)
-        : null;
+    $wallpaperUrl = $user->wallpaper_url;
     $glassBlur = is_numeric($user->glass_blur) ? max(0, min(40, (int) $user->glass_blur)) : 24;
     $htmlStyle = '--glass-blur: '.$glassBlur.'px;';
     if ($wallpaperUrl) {
