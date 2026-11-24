@@ -86,8 +86,9 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            // Neon / Vercel Postgres menyuntikkan DATABASE_URL secara otomatis.
-            'url' => env('DB_URL', env('DATABASE_URL', env('POSTGRES_URL'))),
+            // Sebagian hosting menyuntikkan satu URL koneksi, bukan kredensial
+            // terpisah. MySQL juga bisa memakai DB_URL bila diperlukan.
+            'url' => env('DB_URL', env('DATABASE_URL')),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),

@@ -87,8 +87,8 @@ Middleware `SecurityHeaders` dipasang global dan mengirim:
 
 ### Privasi & konfigurasi
 - `AppServiceProvider` memaksa skema HTTPS dan root URL di produksi (`URL::forceScheme('https')`).
-- Proxy tepercaya diatur via `config/trustedproxy.php` + `TRUSTED_PROXIES` (wajib `*` di Vercel/container agar HTTPS terdeteksi).
-- `.env` tidak masuk repository; `.env.example` dan `.env.vercel.example` berisi placeholder.
+- Proxy tepercaya diatur via `config/trustedproxy.php` + `TRUSTED_PROXIES` (isi `*` hanya bila ada reverse proxy/Cloudflare di depan aplikasi).
+- `.env` tidak masuk repository; `.env.example` hanya berisi placeholder.
 - `APP_DEBUG=false` dan `LOG_LEVEL=warning` untuk produksi.
 - Tidak ada request ke CDN/font pihak ketiga (font Plus Jakarta Sans di-host sendiri), sehingga CSP tetap ketat dan tidak ada kebocoran IP pengguna ke pihak ketiga.
 
@@ -118,7 +118,7 @@ Middleware `SecurityHeaders` dipasang global dan mengirim:
 - [ ] `SESSION_ENCRYPT=true`, `SESSION_HTTP_ONLY=true`, `SESSION_SAME_SITE=lax`.
 - [ ] `LOG_LEVEL=warning` (jangan `debug`).
 - [ ] Kredensial database, mail, dan storage hanya ada di environment hosting, bukan di repository.
-- [ ] `TRUSTED_PROXIES` diisi IP load balancer, atau `*` bila platform tidak memberi IP tetap (Vercel).
+- [ ] `TRUSTED_PROXIES` diisi IP load balancer, atau `*` bila platform tidak memberi IP tetap.
 
 ### Server & transport
 - [ ] HTTPS + redirect paksa dari HTTP.
@@ -129,11 +129,18 @@ Middleware `SecurityHeaders` dipasang global dan mengirim:
 - [ ] Akses SSH/panel admin dibatasi IP dan memakai 2FA.
 
 ### Operasional
-- [ ] Backup database harian + uji restore.
+- [ ] Backup database harian + uji restore (cPanel backup atau `mysqldump`).
 - [ ] Queue worker berjalan untuk notifikasi stok.
 - [ ] Log dipantau; alert untuk lonjakan 4xx/5xx dan login gagal.
 - [ ] Rotasi kredensial demo (`owner@demo.com` dkk.) atau hapus akun demo sebelum produksi.
 - [ ] `php artisan migrate --force` dijalankan lewat pipeline, bukan manual tanpa catatan.
+
+### Database & phpMyAdmin
+- [ ] User database aplikasi memakai hak minimum yang dibutuhkan (hindari `GRANT ALL` ke user publik bila tidak perlu).
+- [ ] **Remote MySQL** dibatasi ke IP server aplikasi saja; jangan `%` kecuali benar-benar diperlukan.
+- [ ] phpMyAdmin tidak diekspos tanpa proteksi: gunakan basic auth/IP allowlist, HTTPS, dan password kuat.
+- [ ] Setelah impor database, kosongkan tabel `sessions`, `cache`, `jobs`, dan `failed_jobs` agar tidak membawa sesi/antrean dari mesin lain.
+- [ ] Simpan file dump (`.sql`) di tempat aman dan hapus setelah impor; file dump berisi hash password dan data pelanggan.
 
 ### Setelah deploy
 - [ ] Cek header dengan `curl -I https://domain-anda/`.
@@ -147,7 +154,7 @@ Middleware `SecurityHeaders` dipasang global dan mengirim:
 
 1. **`'unsafe-eval'` pada CSP** — Alpine.js mengevaluasi ekspresi dengan `new Function`. Menghapusnya akan mematikan seluruh interaksi Alpine. Mitigasi: semua script hanya berasal dari origin sendiri + nonce; tidak ada konten pengguna yang dirender sebagai JavaScript.
 2. **`'unsafe-inline'` pada `style-src`** — dibutuhkan oleh atribut `style` dinamis (blur, wallpaper, chart). Dampaknya terbatas pada CSS, bukan eksekusi script.
-3. **Penyimpanan unggahan** — di Vercel/container, filesystem bersifat sementara. Avatar/wallpaper/logo akan hilang saat redeploy kecuali memakai S3/R2/Blob. Ini masalah ketahanan data, bukan kebocoran.
+3. **Penyimpanan unggahan** — di container, filesystem bersifat sementara. Avatar/wallpaper/logo akan hilang saat redeploy kecuali memakai volume persisten atau S3/R2. Ini masalah ketahanan data, bukan kebocoran.
 4. **Rate limit berbasis cache** — jika cache dibersihkan atau memakai driver yang tidak persisten, hitungan throttle ikut reset. Gunakan Redis/database di produksi untuk konsistensi.
 5. **Email** — verifikasi email tidak diwajibkan pada alur saat ini. Siapa pun yang menguasai email bisa memakai fitur reset password. Aktifkan verifikasi email bila akun dipakai untuk data sensitif.
 6. **Multi-tenant berbasis scope** — kode baru yang menambahkan query mentah (`DB::table`, `withoutGlobalScope`) wajib menambahkan filter `tenant_id` manual. Selalu tambahkan regression test lintas tenant saat menambah fitur.

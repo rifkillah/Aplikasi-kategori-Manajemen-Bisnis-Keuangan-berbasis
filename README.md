@@ -244,6 +244,21 @@ Registrasi publik selalu membuat akun **owner** untuk tenant baru. Anggota tim d
 
 ---
 
+## Hosting & Database (phpMyAdmin)
+
+Aplikasi memakai **MySQL standar**, jadi bisa di-hosting di shared hosting/cPanel, VPS, atau Docker — dan database-nya bisa dibuka lewat **phpMyAdmin** Anda.
+
+- phpMyAdmin bukan database terpisah: selama aplikasi dan phpMyAdmin menunjuk server + nama database yang sama, data langsung sinkron dua arah.
+- Alur: ekspor database lokal dari phpMyAdmin (`kasirin.sql`) → buat database + user di cPanel → impor lewat phpMyAdmin hosting → isi `DB_*` di `.env` → `php artisan migrate --force`.
+- Syarat utama: hosting mendukung **PHP 8.6** dan MySQL 8+/MariaDB 10.6+.
+- Setelah impor, kosongkan tabel `sessions`, `cache`, dan `jobs` agar tidak membawa sesi lama, lalu hapus akun demo.
+
+Panduan langkah demi langkah (cPanel, VPS, Docker, cron queue, dan sinkronisasi phpMyAdmin) ada di **[DEPLOY.md](DEPLOY.md)**.
+
+> Vercel sudah tidak didukung karena bukan host PHP/MySQL biasa, filesystem-nya sementara, dan tidak menyediakan phpMyAdmin.
+
+---
+
 ## Beralih ke SQLite (opsional)
 
 MySQL adalah database default. Jika ingin memakai SQLite (misalnya untuk eksperimen cepat):
@@ -367,11 +382,11 @@ PHP 8.6 menandai directive tersebut sebagai deprecated. Komentari atau hapus bar
 Sebelum dipublikasikan, wajib:
 - `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` memakai `https://`.
 - `SESSION_SECURE_COOKIE=true`, `SESSION_ENCRYPT=true`, `LOG_LEVEL=warning`.
-- `TRUSTED_PROXIES` diisi sesuai hosting (gunakan `*` untuk Vercel).
+- `TRUSTED_PROXIES` diisi sesuai hosting (gunakan `*` hanya bila ada reverse proxy/Cloudflare).
 - Document root mengarah ke `public/`, lalu jalankan `php artisan config:cache route:cache view:cache`.
 - Hapus atau ganti akun demo sebelum go-live.
 
-Checklist lengkap, kontrol keamanan yang diterapkan, dan **risiko sisa** ada di [SECURITY.md](SECURITY.md). Panduan hosting gratis tersedia di [DEPLOY-VERCEL.md](DEPLOY-VERCEL.md).
+Checklist lengkap, kontrol keamanan yang diterapkan, dan **risiko sisa** ada di [SECURITY.md](SECURITY.md). Panduan hosting + sinkronisasi phpMyAdmin ada di [DEPLOY.md](DEPLOY.md).
 
 ---
 
