@@ -292,7 +292,7 @@ Semua query menggunakan Eloquent/Query Builder sehingga kompatibel dengan MySQL 
 php artisan test
 ```
 
-Cakupan test saat ini (74 test, 265 assertion):
+Cakupan test saat ini (75 test, 269 assertion):
 - Registrasi tenant baru + role owner + kategori default.
 - Isolasi data antar-tenant dan pembatasan role.
 - Pembuatan penjualan, perhitungan pajak/diskon, pengurangan stok, dan nomor invoice.
