@@ -147,7 +147,7 @@
         {{-- Main --}}
         <div class="lg:pl-[17.5rem]">
             <header class="sticky top-0 z-30 px-3 pt-3 sm:px-4 lg:px-6 lg:pt-4">
-                <div class="app-glass page-enter flex h-16 items-center justify-between gap-3 rounded-[22px] border border-white/80 bg-white/75 px-3 shadow-[0_16px_40px_-24px_rgba(15,23,42,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-4">
+                <div class="liquid-glass liquid-glass-bar page-enter flex h-16 items-center justify-between gap-3 rounded-[22px] px-3 sm:px-4">
                     <div class="flex min-w-0 items-center gap-3">
                         <div class="min-w-0">
                             <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
@@ -200,7 +200,7 @@
                             </button>
 
                             <div x-show="profileOpen" x-cloak x-transition.origin.top.right
-                                 class="app-glass absolute right-0 mt-2 w-60 overflow-hidden rounded-[24px] border border-white/80 bg-white/95 py-1.5 shadow-[0_24px_60px_-20px_rgba(15,23,42,0.4)]">
+                                 class="liquid-glass absolute right-0 mt-2 w-60 overflow-hidden rounded-[24px] py-1.5">
                                 <div class="border-b border-white/60 px-4 py-2.5">
                                     <p class="truncate text-sm font-semibold text-slate-800">{{ $user->name }}</p>
                                     <p class="truncate text-xs text-slate-500">{{ $user->email }}</p>
@@ -254,7 +254,7 @@
         <nav x-show="!sidebarOpen" x-cloak
              x-transition:enter="transition duration-200" x-transition:enter-start="translate-y-6 opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
              class="app-tabbar fixed inset-x-0 bottom-0 z-40 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 lg:hidden">
-            <div class="app-glass mx-auto flex max-w-md items-stretch justify-around gap-1 rounded-[26px] border border-white/80 bg-white/80 p-2 shadow-[0_20px_50px_-16px_rgba(15,23,42,0.5),inset_0_1px_0_rgba(255,255,255,0.95)]">
+            <div class="liquid-glass liquid-glass-bar mx-auto flex max-w-md items-stretch justify-around gap-1 rounded-[26px] p-2">
                 <a href="{{ route('dashboard') }}" class="{{ $tabBase }} {{ request()->routeIs('dashboard') ? $tabOn : $tabOff }}">
                     <x-icon name="home" class="h-5 w-5" />
                     <span>Dashboard</span>

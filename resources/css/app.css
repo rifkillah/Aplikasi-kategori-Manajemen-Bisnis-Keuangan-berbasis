@@ -198,6 +198,75 @@
         backdrop-filter: blur(var(--glass-blur, 24px)) saturate(1.7);
     }
 
+    /* ------------------------------------------------------------------
+       Apple-style liquid glass for floating chrome (header, menus, tab bar)
+
+       Apple's frosted surfaces stay readable: they are heavily blurred,
+       carry a bright specular rim and keep enough tint that page content
+       never bleeds through the text. Plain bg-white/75 + blur looked too
+       transparent over busy wallpapers, especially in dark mode.
+       ------------------------------------------------------------------ */
+    .liquid-glass {
+        --liquid-tint: rgba(255, 255, 255, 0.94);
+        --liquid-sheen: rgba(255, 255, 255, 0.98);
+        --liquid-rim: rgba(255, 255, 255, 0.9);
+
+        position: relative;
+        background-color: var(--liquid-tint);
+        background-image: linear-gradient(
+            152deg,
+            var(--liquid-sheen) 0%,
+            rgba(255, 255, 255, 0.34) 34%,
+            rgba(255, 255, 255, 0.1) 62%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        border: 1px solid var(--liquid-rim);
+        box-shadow:
+            0 1px 1px rgba(15, 23, 42, 0.05),
+            0 18px 48px -20px rgba(15, 23, 42, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.4),
+            inset 0 0 22px rgba(255, 255, 255, 0.24);
+        -webkit-backdrop-filter: blur(calc(16px + var(--glass-blur, 24px) * 0.8)) saturate(1.9);
+        backdrop-filter: blur(calc(16px + var(--glass-blur, 24px) * 0.8)) saturate(1.9);
+    }
+
+    /* Slimmer chrome: keeps the frost but a lighter drop shadow. */
+    .liquid-glass-bar {
+        box-shadow:
+            0 1px 1px rgba(15, 23, 42, 0.04),
+            0 12px 32px -20px rgba(15, 23, 42, 0.42),
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            inset 0 0 18px rgba(255, 255, 255, 0.18);
+    }
+
+    html[data-theme='dark'] .liquid-glass {
+        --liquid-tint: rgba(17, 25, 44, 0.94);
+        --liquid-sheen: rgba(148, 163, 184, 0.16);
+        --liquid-rim: rgba(255, 255, 255, 0.16);
+
+        background-image: linear-gradient(
+            152deg,
+            var(--liquid-sheen) 0%,
+            rgba(148, 163, 184, 0.06) 38%,
+            rgba(15, 23, 42, 0) 100%
+        );
+        box-shadow:
+            0 1px 1px rgba(0, 0, 0, 0.35),
+            0 18px 48px -20px rgba(0, 0, 0, 0.9),
+            inset 0 1px 0 rgba(255, 255, 255, 0.16),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+            inset 0 0 22px rgba(148, 163, 184, 0.08);
+    }
+
+    html[data-theme='dark'] .liquid-glass-bar {
+        box-shadow:
+            0 1px 1px rgba(0, 0, 0, 0.3),
+            0 12px 32px -20px rgba(0, 0, 0, 0.85),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14),
+            inset 0 0 18px rgba(148, 163, 184, 0.06);
+    }
+
     .card {
         @apply relative rounded-[28px] border border-white/80 bg-white/80 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.35),inset_0_1px_0_rgba(255,255,255,0.9)];
         -webkit-backdrop-filter: blur(var(--glass-blur, 24px)) saturate(1.7);
